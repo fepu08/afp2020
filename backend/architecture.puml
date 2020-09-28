@@ -1,0 +1,21 @@
+@startuml
+
+interface HTTP
+
+
+package "Backend" {
+    [Controller] -> [Service]
+    [Service] -> [DAO]
+}
+
+node "Docker"{
+    database "MySQL"{
+        [Databases]
+    }
+}
+
+HTTP -- [Controller]
+
+[DAO] <-> [Databases]
+
+@enduml
