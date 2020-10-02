@@ -1,0 +1,50 @@
+@startuml
+:Látogatók: as ac1
+usecase "Bejárat" as BE
+BE <--> ac1: Óra
+package "Csúszdák" as CSU{
+    usecase "Kapu1" as KA1
+    usecase "Csúszda1" as CS1
+    usecase "Kapu2" as KA2
+    usecase "Csúszda2" as CS2
+    usecase "Kapu3" as KA3
+    usecase "Csúszda3" as CS3
+    usecase "Kapu4" as KA4
+    usecase "Csúszda4" as CS4
+    usecase "Kapu.." as KA5
+    usecase "Csúszda.." as CS5
+}
+ac1 --> KA1
+ac1 --> KA2
+ac1 --> KA3
+ac1 --> KA4
+ac1 --> KA5
+KA1 --> CS1
+KA2 --> CS2
+KA3 --> CS3
+KA4 --> CS4
+KA5 --> CS5
+usecase "Távozik?" as TA
+usecase "Igen" as IG
+usecase "Nem" as NE
+CS1 .. TA
+CS2 .. TA
+CS3 .. TA
+CS4 .. TA
+CS5 .. TA
+TA --> IG
+TA --> NE
+ac1 <-- NE
+package "Csekkolás" as CSE{
+    usecase "Csekkolás" as CSE1
+    usecase "Óra leadás" as LE
+    usecase "Fizetés" as FI
+}
+note "Adott csúszda ára és a csúszás időpontja feljegyezve az órában." as N1
+IG .. N1
+N1 ..> CSE1
+CSE1 -> LE
+LE -> FI
+note "Statisztika készítése a legtöbbet használt csúszdákról." as N2
+LE .. N2
+@enduml
