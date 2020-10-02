@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>hu.uni.eku.tzs</groupId>
+  <groupId>hu.uni.eku.afp2020</groupId>
   <artifactId>backend</artifactId>
   <version>1.0.21-SNAPSHOT</version>
 
@@ -32,7 +32,7 @@
     <repository>
       <id>github</id>
       <name>GitHub OWNER Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/ZsoltToth/project-templates-spring-react</url>
+      <url>https://maven.pkg.github.com/fepu08/afp2020</url>
     </repository>
   </distributionManagement>
 
