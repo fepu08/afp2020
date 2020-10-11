@@ -1,0 +1,44 @@
+guests
+{
+  id : int
+  name: varchar
+  watchId: int
+  checkIn: timestamp | YYYY-MM-DD hh:mm:ss
+  checkOut: timestamp | YYYY-MM-DD hh:mm:ss | NOT required //mikor checkoutol akkor current_timestamp()
+  balance: decimal | default 0 // minden slideUsage-nél ezt updateljük
+}
+
+slideUsages
+{
+  id: int
+  slideId: int
+  watchId: int
+  usedAt: timestamp | YYYY-MM-DD hh:mm:ss | current_timestamp() // kell a statisztika készítéshez
+}
+
+watches
+{
+  id: int
+}
+
+slides
+{
+  id: int
+  price: decimal
+}
+
+slidePriceHistory //amikor változtatjuk valaminek az árát beszúrunk ide egy rekordot
+{
+  id: int
+  slideId: int
+  price: decimal
+  changed_at: timestamp | YYYY-MM-DD hh:mm:ss
+}
+
+Note:
+Ha az emberünk csúszik, akkor hozzányomja az órát egy érzékelőhöz, ezután tud csak átmenni a kapun
+ekkor a ... készít egy slideUsage rekordot, ez alapján a slideId ből kivesszük az árat és a
+watchId val megmondjuk hogy kinek a balance-t updatelje a csúszda árával
+
+
+
