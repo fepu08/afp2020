@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SlideUsageRequestDto {
+public class UseSlideRequestDto {
     private UUID watchID;
     private int slideId;
     private int price;

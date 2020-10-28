@@ -1,6 +1,7 @@
 package hu.uni.eku.tzs.controller;
 
 import hu.uni.eku.tzs.controller.dto.*;
+import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,13 @@ public class AquaparkController {
 
     private Collection<GuestDto> guests = new ArrayList<>();
 
-    @PostMapping("/record New Guest")
-    @ApiOperation(value = "recordNewGuest")
+    @PostMapping("/recordNewGuest")
+    @ApiOperation(value = "record New Guest")
     public void recordNewGuest(){
         GuestDto guest = GuestDto.builder()
                 .watch(WatchDto.builder().watchID(UUID.randomUUID()).build())
                 .ID(UUID.randomUUID())
-                .transactionID(TransactionDto.builder()
+                .transactions(TransactionDto.builder()
                         .ID(UUID.randomUUID())
                         .usages(new ArrayList<>())
                         .build())
@@ -46,22 +47,62 @@ public class AquaparkController {
               return GuestDto.builder()
                     .watch(guest.getWatch())
                     .ID(guest.getID())
-                    .transactionID(guest.getTransactionID())
+                    .transactions(guest.getTransactions())
                     .arrivalDateTime(guest.getArrivalDateTime())
                     .build();
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/slideUsage")
-    @ApiOperation(value = "slide usage")
-    public void slideUsage( @RequestBody SlideUsageRequestDto request ){
+    @GetMapping(value = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiOperation(value = "Get guest by id")
+    public GuestDto getGuestByID(@PathVariable UUID ID) throws GuestNotFoundByIDException {
+        for (GuestDto guest : guests){
+            if (guest.getID().equals(ID)){
+                return GuestDto.builder()
+                        .watch(guest.getWatch())
+                        .ID(guest.getID())
+                        .transactions(guest.getTransactions())
+                        .arrivalDateTime(guest.getArrivalDateTime())
+                        .build();
+            }
+        }
+
+        throw new GuestNotFoundByIDException();
+    }
+
+    @GetMapping(value = {"/slideUsage/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiOperation(value = "Get guest by id")
+    public Collection<SlideDto> getSlideUsageOfGuestByID(@PathVariable UUID ID){
+
+        Collection<SlideDto> slideUsages = new ArrayList<>();
+
+        for (GuestDto guest : guests){
+            if (guest.getID().equals(ID)){
+                for (UsageDto usages : guest.getTransactions().getUsages()){
+                    slideUsages.add( SlideDto.builder()
+                            .ID(usages.getSlideID().getID())
+                            .price(usages.getSlideID().getPrice())
+                            .build());
+                }
+            }
+        }
+
+        return slideUsages;
+    }
+
+    @PostMapping("/useSlide")
+    @ApiOperation(value = "Use slide")
+    public void useSlide( @RequestBody UseSlideRequestDto request ){
 
         try {
             for (GuestDto guest : guests)
             {       //  !!!!!!  UUID-nál nem == hanem .equals() kell  !!!!!!
                 if (request.getWatchID().equals(guest.getWatch().getWatchID())){
 
-                    guest.getTransactionID().getUsages().add(
+                    // Hozzá adjuk a csuszda árát és ID-jet a tranzakciós listához
+                    guest.getTransactions().getUsages().add(
                             UsageDto.builder()
                                     .ID(UUID.randomUUID())
                                     .slideID(SlideDto.builder()
