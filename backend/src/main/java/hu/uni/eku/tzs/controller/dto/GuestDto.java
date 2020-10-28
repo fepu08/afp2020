@@ -11,6 +11,6 @@ import java.util.UUID;
 public class GuestDto {
     private WatchDto watch;
     private UUID ID;
-    private TransactionDto transactionID;
+    private TransactionDto transactions;
     private LocalDateTime arrivalDateTime;
 }

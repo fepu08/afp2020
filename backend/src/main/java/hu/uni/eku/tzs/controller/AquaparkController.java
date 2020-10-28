@@ -1,8 +1,6 @@
 package hu.uni.eku.tzs.controller;
 
-import hu.uni.eku.tzs.controller.dto.GuestDto;
-import hu.uni.eku.tzs.controller.dto.TransactionDto;
-import hu.uni.eku.tzs.controller.dto.WatchDto;
+import hu.uni.eku.tzs.controller.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,7 @@ public class AquaparkController {
 
     private Collection<GuestDto> guests = new ArrayList<>();
 
-    @PostMapping("/recordNewGuest")
+    @PostMapping("/record New Guest")
     @ApiOperation(value = "recordNewGuest")
     public void recordNewGuest(){
         GuestDto guest = GuestDto.builder()
@@ -54,4 +52,30 @@ public class AquaparkController {
         }).collect(Collectors.toList());
     }
 
+    @PostMapping("/slideUsage")
+    @ApiOperation(value = "slide usage")
+    public void slideUsage( @RequestBody SlideUsageRequestDto request ){
+
+        try {
+            for (GuestDto guest : guests)
+            {       //  !!!!!!  UUID-nál nem == hanem .equals() kell  !!!!!!
+                if (request.getWatchID().equals(guest.getWatch().getWatchID())){
+
+                    guest.getTransactionID().getUsages().add(
+                            UsageDto.builder()
+                                    .ID(UUID.randomUUID())
+                                    .slideID(SlideDto.builder()
+                                            .ID(request.getSlideId())
+                                            .price(request.getPrice())
+                                            .build())
+                                    .build()
+                    );
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.info("Nincs ilyen óra használatban: {}", request.getWatchID());
+        }
+    }
 }
