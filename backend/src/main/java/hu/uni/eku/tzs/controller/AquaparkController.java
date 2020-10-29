@@ -32,7 +32,7 @@ public class AquaparkController {
                 .ID(UUID.randomUUID())
                 .transactions(TransactionDto.builder()
                         .ID(UUID.randomUUID())
-                        .usages(new ArrayList<>())
+                        .slips(new ArrayList<>())
                         .build())
                 .arrivalDateTime(LocalDateTime.now())
                 .build();
@@ -71,25 +71,20 @@ public class AquaparkController {
         throw new GuestNotFoundByIDException();
     }
 
-    @GetMapping(value = {"/slideUsage/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = {"/slips/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @ApiOperation(value = "Get guest by id")
+    @ApiOperation(value = "Get guest slips by id")
     public Collection<SlideDto> getSlideUsageOfGuestByID(@PathVariable UUID ID){
 
-        Collection<SlideDto> slideUsages = new ArrayList<>();
+        Collection<SlideDto> slips = new ArrayList<>();
 
         for (GuestDto guest : guests){
             if (guest.getID().equals(ID)){
-                for (UsageDto usages : guest.getTransactions().getUsages()){
-                    slideUsages.add( SlideDto.builder()
-                            .ID(usages.getSlideID().getID())
-                            .price(usages.getSlideID().getPrice())
-                            .build());
-                }
+                slips = guest.getTransactions().getSlips();
             }
         }
 
-        return slideUsages;
+        return slips;
     }
 
     @PostMapping("/useSlide")
@@ -102,13 +97,10 @@ public class AquaparkController {
                 if (request.getWatchID().equals(guest.getWatch().getWatchID())){
 
                     // Hozzá adjuk a csuszda árát és ID-jet a tranzakciós listához
-                    guest.getTransactions().getUsages().add(
-                            UsageDto.builder()
-                                    .ID(UUID.randomUUID())
-                                    .slideID(SlideDto.builder()
-                                            .ID(request.getSlideId())
-                                            .price(request.getPrice())
-                                            .build())
+                    guest.getTransactions().getSlips().add(
+                            SlideDto.builder()
+                                    .ID(request.getSlideId())
+                                    .price(request.getPrice())
                                     .build()
                     );
                 }

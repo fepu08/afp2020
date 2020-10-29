@@ -10,5 +10,5 @@ import java.util.UUID;
 @Builder
 public class TransactionDto {
     private UUID ID;
-    private Collection<UsageDto> usages;
+    private Collection<SlideDto> slips;
 }
