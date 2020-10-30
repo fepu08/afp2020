@@ -6,13 +6,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,26 +22,43 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AquaparkController {
 
+    private int guestID = 0;
     private Collection<GuestDto> guests = new ArrayList<>();
+    private static Queue<WatchDto> watches = new LinkedList<>();
+    
+    static {
+        for (int i = 0; i < 10; i++) {
+            watches.add(WatchDto.builder().watchID(UUID.randomUUID()).build());
+        }
+    }
 
-    @PostMapping("/recordNewGuest")
-    @ApiOperation(value = "record New Guest")
-    public void recordNewGuest(){
-        GuestDto guest = GuestDto.builder()
-                .watch(WatchDto.builder().watchID(UUID.randomUUID()).build())
-                .ID(UUID.randomUUID())
-                .transactions(TransactionDto.builder()
-                        .ID(UUID.randomUUID())
-                        .slips(new ArrayList<>())
-                        .build())
-                .arrivalDateTime(LocalDateTime.now())
-                .build();
-        guests.add(guest);
+    @PostMapping("/checkInGuest")
+    @ApiOperation(value = "Check in new guest")
+    public void checkInGuest(){
+        if (!watches.isEmpty()) {
+            GuestDto guest = GuestDto.builder()
+                    .watch(watches.poll())
+                    .ID(guestID++)
+                    .transactions(TransactionDto.builder()
+                            .ID(UUID.randomUUID())
+                            .slips(new ArrayList<>())
+                            .build())
+                    .arrivalDateTime(LocalDateTime.now())
+                    .build();
+            guests.add(guest);
+        }
+        else {
+            log.info("Nincs több szabad hely az aquaparkban.");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Nincs több szabad hely az aquaparkban."
+            );
+        }
     }
 
     @GetMapping(value = {"/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @ApiOperation(value = "Get all guest")
+    @ApiOperation(value = "Get all guests")
     public Collection<GuestDto> getAllGuests(){
         return guests.stream().map(guest -> {
               return GuestDto.builder()
@@ -53,12 +70,12 @@ public class AquaparkController {
         }).collect(Collectors.toList());
     }
 
-    @GetMapping(value = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = {"/{ID}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ApiOperation(value = "Get guest by id")
-    public GuestDto getGuestByID(@PathVariable UUID ID) throws GuestNotFoundByIDException {
+    public GuestDto getGuestByID(@PathVariable int ID) throws GuestNotFoundByIDException {
         for (GuestDto guest : guests){
-            if (guest.getID().equals(ID)){
+            if (guest.getID() == ID){
                 return GuestDto.builder()
                         .watch(guest.getWatch())
                         .ID(guest.getID())
@@ -71,15 +88,15 @@ public class AquaparkController {
         throw new GuestNotFoundByIDException();
     }
 
-    @GetMapping(value = {"/slips/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = {"/slips/{ID}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ApiOperation(value = "Get guest slips by id")
-    public Collection<SlideDto> getSlideUsageOfGuestByID(@PathVariable UUID ID){
+    public Collection<SlideDto> getSlideUsageOfGuestByID(@PathVariable int ID){
 
         Collection<SlideDto> slips = new ArrayList<>();
 
         for (GuestDto guest : guests){
-            if (guest.getID().equals(ID)){
+            if (guest.getID() == ID){
                 slips = guest.getTransactions().getSlips();
             }
         }
@@ -110,5 +127,13 @@ public class AquaparkController {
         {
             log.info("Nincs ilyen óra használatban: {}", request.getWatchID());
         }
+    }
+
+    @PostMapping("/checkOutGuest")
+    @ApiOperation(value = "Check out guest")
+    public void checkOutGuest(@RequestBody CheckOutGuestRequestDto request) throws GuestNotFoundByIDException {
+        GuestDto guest = getGuestByID(request.getGuestID());
+        guests.remove(guest);
+        watches.add(guest.getWatch());
     }
 }

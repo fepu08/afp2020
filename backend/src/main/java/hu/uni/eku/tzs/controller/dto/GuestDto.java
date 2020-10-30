@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder
 public class GuestDto {
     private WatchDto watch;
-    private UUID ID;
+    private int ID;
     private TransactionDto transactions;
     private LocalDateTime arrivalDateTime;
 }
