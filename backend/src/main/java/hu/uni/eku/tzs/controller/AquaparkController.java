@@ -46,6 +46,7 @@ public class AquaparkController {
                     .arrivalDateTime(LocalDateTime.now())
                     .build();
             guests.add(guest);
+
         }
         else {
             log.info("Nincs több szabad hely az aquaparkban.");
@@ -118,6 +119,7 @@ public class AquaparkController {
                             SlideDto.builder()
                                     .ID(request.getSlideId())
                                     .price(request.getPrice())
+                                    .slideCurrentTime(LocalDateTime.now())
                                     .build()
                     );
                 }
