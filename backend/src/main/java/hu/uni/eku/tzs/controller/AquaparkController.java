@@ -61,14 +61,12 @@ public class AquaparkController {
     @ResponseBody
     @ApiOperation(value = "Get all guests")
     public Collection<GuestDto> getAllGuests(){
-        return guests.stream().map(guest -> {
-              return GuestDto.builder()
-                    .watch(guest.getWatch())
-                    .ID(guest.getID())
-                    .transactions(guest.getTransactions())
-                    .arrivalDateTime(guest.getArrivalDateTime())
-                    .build();
-        }).collect(Collectors.toList());
+        return guests.stream().map(guest -> GuestDto.builder()
+              .watch(guest.getWatch())
+              .ID(guest.getID())
+              .transactions(guest.getTransactions())
+              .arrivalDateTime(guest.getArrivalDateTime())
+              .build()).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/{ID}"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -129,6 +127,57 @@ public class AquaparkController {
         {
             log.info("Nincs ilyen óra használatban: {}", request.getWatchID());
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = {"/bill/{ID}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiOperation(value = "Generate bill for the guest")
+    public BillDto getBillOfGuest(@PathVariable int ID) throws GuestNotFoundByIDException {
+        GuestDto guest = getGuestByID(ID);
+        int finalPrice = 0;
+
+        BillDto bill = BillDto.builder()
+                .guestID(guest.getID())
+                .watchID(guest.getWatch().getWatchID())
+                .transactionID(guest.getTransactions().getID())
+                .items(new ArrayList<>())
+                .date(LocalDateTime.now())
+                .build();
+
+        for (SlideDto slip : guest.getTransactions().getSlips()){
+            boolean itemExist = false;
+
+            BillItemDto newBillItem = BillItemDto.builder()
+                    .slideID(slip.getID())
+                    .slidePrice(slip.getPrice())
+                    .counter(1)
+                    .slideFinalPrice(slip.getPrice())
+                    .build();
+
+            if (bill.getItems().size() == 0)
+            {
+                bill.getItems().add(newBillItem);
+            }
+            else {
+                for (BillItemDto billItem : bill.getItems()){
+                    if(billItem.getSlideID() == slip.getID()){
+                        itemExist = true;
+                        billItem.setCounter(billItem.getCounter() + 1);
+                        billItem.setSlideFinalPrice(billItem.getSlideFinalPrice() + slip.getPrice());
+                        break;
+                    }
+                }
+                if (!itemExist){
+                    bill.getItems().add(newBillItem);
+                }
+            }
+
+            finalPrice += slip.getPrice();
+        }
+
+        bill.setFinalPrice(finalPrice);
+
+        return bill;
     }
 
     @PostMapping("/checkOutGuest")
