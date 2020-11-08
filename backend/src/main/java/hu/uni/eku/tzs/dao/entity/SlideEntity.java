@@ -1,10 +1,11 @@
 package hu.uni.eku.tzs.dao.entity;
 
-import hu.uni.eku.tzs.model.Transaction;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Builder
@@ -12,19 +13,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name ="guests")
-public class GuestEntity {
-
+@Table(name ="slide")
+public class SlideEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private int id;
 
     @Column
-    private LocalDateTime arrivalDateTime;
+    private int price;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(referencedColumnName = "id")
-    private WatchEntity watch;
+    @Column
+    private LocalDateTime slideCurrentTime;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
