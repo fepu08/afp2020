@@ -1,6 +1,10 @@
 package hu.uni.eku.tzs.dao;
 
+import hu.uni.eku.tzs.dao.entity.GuestEntity;
 import hu.uni.eku.tzs.model.Guest;
+import hu.uni.eku.tzs.model.Slide;
+import hu.uni.eku.tzs.model.Transaction;
+import hu.uni.eku.tzs.model.Watch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +12,12 @@ import java.util.Collection;
 
 @RequiredArgsConstructor
 @Service
-public class GuestServiceDaoImpl implements GuestServiceDao {
+public class GuestDaoImpl implements GuestDao {
 
     private final GuestRepository repository;
 
     @Override
-    public void create(Guest guestDto) {
+    public void create(Guest guest) {
     }
 
     @Override
@@ -27,7 +31,8 @@ public class GuestServiceDaoImpl implements GuestServiceDao {
     }
 
     @Override
-    public void delete(Guest guestDto) {
+    public void delete(Guest guest) {
 
     }
+
 }

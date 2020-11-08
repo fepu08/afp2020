@@ -4,13 +4,13 @@ import hu.uni.eku.tzs.model.Guest;
 
 import java.util.Collection;
 
-public interface GuestServiceDao {
+public interface GuestDao {
 
-    void create(Guest guestDto);
+    void create(Guest guest);
 
     Collection<Guest> readAll();
 
     void update(Guest original, Guest updated);
 
-    void delete(Guest guestDto);
+    void delete(Guest guest);
 }

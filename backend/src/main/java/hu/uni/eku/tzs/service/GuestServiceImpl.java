@@ -2,11 +2,8 @@ package hu.uni.eku.tzs.service;
 
 import hu.uni.eku.tzs.controller.dto.CheckOutGuestRequestDto;
 import hu.uni.eku.tzs.controller.dto.GuestDto;
-import hu.uni.eku.tzs.dao.ComplexNumberDao;
-import hu.uni.eku.tzs.dao.GuestServiceDao;
-import hu.uni.eku.tzs.model.ComplexNumber;
+import hu.uni.eku.tzs.dao.GuestDao;
 import hu.uni.eku.tzs.model.Guest;
-import hu.uni.eku.tzs.model.Watch;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +16,7 @@ import java.util.Collection;
 @Service
 public class GuestServiceImpl implements GuestService {
 
-    private final GuestServiceDao dao;
+    private final GuestDao dao;
 
     @Override
     public void checkInGuest() {
@@ -34,7 +31,6 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public Guest getGuestByID(int ID) throws GuestNotFoundByIDException {
         Collection<Guest> guests = getAllGuests();
-
 
         for (Guest guest: guests) {
             if(guest.getID() == ID){
