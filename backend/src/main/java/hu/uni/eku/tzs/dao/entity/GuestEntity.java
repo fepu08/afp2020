@@ -11,15 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Guests")
-public class Guest {
+@Table(name ="guests")
+public class GuestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column
-    @ManyToOne
-    private Watch watch;
+
     @Column
     private LocalDateTime arrivalDateTime;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(referencedColumnName = "id")
+    private WatchEntity watch;
 }

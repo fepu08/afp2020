@@ -1,7 +1,8 @@
 package hu.uni.eku.tzs.dao;
 
-import hu.uni.eku.tzs.controller.dto.GuestDto;
+
+import hu.uni.eku.tzs.dao.entity.GuestEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface GuestRepository extends CrudRepository<GuestDto, Integer> {
+public interface GuestRepository extends CrudRepository<GuestEntity, Integer> {
 }
