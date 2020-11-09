@@ -24,9 +24,6 @@ public class SlideEntity {
     @Column
     private int price;
 
-    @Column
-    private LocalDateTime slideCurrentTime;
-
     @OneToOne(mappedBy = "slide")
     private TransactionEntity transaction;
 }

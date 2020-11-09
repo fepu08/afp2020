@@ -7,13 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Guest {
-    private Watch watch;
+    //private Watch watch;
     private int ID;
-    private Transaction transactions;
+    //private Transaction transactions;
     private LocalDateTime arrivalDateTime;
 }

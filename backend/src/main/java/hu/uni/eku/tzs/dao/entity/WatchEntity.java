@@ -23,6 +23,9 @@ public class WatchEntity {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
+    @Column
+    private Boolean inUse;
+
     @OneToOne(mappedBy = "watch")
     private GuestEntity guest;
 

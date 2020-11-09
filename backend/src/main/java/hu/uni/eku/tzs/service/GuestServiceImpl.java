@@ -4,6 +4,8 @@ import hu.uni.eku.tzs.controller.dto.CheckOutGuestRequestDto;
 import hu.uni.eku.tzs.controller.dto.GuestDto;
 import hu.uni.eku.tzs.dao.GuestDao;
 import hu.uni.eku.tzs.model.Guest;
+import hu.uni.eku.tzs.model.Transaction;
+import hu.uni.eku.tzs.model.Watch;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,7 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public void checkInGuest() {
-        dao.create(new Guest());
+        dao.create(new Guest(), new Watch(), new Transaction());
     }
 
     @Override

@@ -4,12 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Watch {
+public class Bill {
+    private int id;
     private UUID watchID;
-    private Boolean inUse;
+    private UUID transactionID;
+    private int finalPrice;
+    private LocalDate date;
 }

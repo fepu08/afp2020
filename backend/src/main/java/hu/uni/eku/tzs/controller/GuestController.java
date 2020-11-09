@@ -48,7 +48,7 @@ public class GuestController {
             returnDtos.add(GuestDto.builder()
                     .ID(g.getID())
                     .arrivalDateTime(g.getArrivalDateTime())
-                    .watch(WatchDto.builder().watchID(g.getWatch().getWatchID()).build())
+                    /**.watch(WatchDto.builder().watchID(g.getWatch().getWatchID()).build())
                     .transactions(TransactionDto.builder()
                             .ID(g.getTransactions().getID())
                             .slips( g.getTransactions().getSlips().stream().map(
@@ -58,7 +58,7 @@ public class GuestController {
                                     .slideCurrentTime(slide.getSlideCurrentTime())
                                     .build()).collect(Collectors.toList())
                             )
-                            .build())
+                            .build())*/
                     .build());
         }
 
@@ -74,9 +74,9 @@ public class GuestController {
 
             return GuestDto.builder()
                     .ID(guest.getID())
-                    .watch(WatchDto.builder().watchID(guest.getWatch().getWatchID()).build())
+                    //.watch(WatchDto.builder().watchID(guest.getWatch().getWatchID()).build())
                     .arrivalDateTime(guest.getArrivalDateTime())
-                    .transactions(TransactionDto.builder()
+                    /**.transactions(TransactionDto.builder()
                             .ID(guest.getTransactions().getID())
                             .slips(guest.getTransactions().getSlips().stream().map(
                                     slide -> SlideDto.builder()
@@ -85,7 +85,7 @@ public class GuestController {
                                             .slideCurrentTime(slide.getSlideCurrentTime())
                                             .build()).collect(Collectors.toList())
                             )
-                            .build())
+                            .build())*/
                     .build();
         } catch (GuestNotFoundByIDException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

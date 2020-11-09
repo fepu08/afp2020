@@ -28,10 +28,10 @@ public class TransactionEntity {
     private GuestEntity guest;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "slideID", referencedColumnName = "id")
     private SlideEntity slide;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "billID", referencedColumnName = "id")
     private BillEntity bill;
 }
