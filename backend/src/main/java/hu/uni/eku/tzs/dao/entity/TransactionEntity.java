@@ -27,6 +27,11 @@ public class TransactionEntity {
     @OneToOne(mappedBy = "transaction")
     private GuestEntity guest;
 
-    @OneToOne(mappedBy = "transaction")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private SlideEntity slide;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private BillEntity bill;
 }

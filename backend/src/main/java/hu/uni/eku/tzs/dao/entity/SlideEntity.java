@@ -1,5 +1,6 @@
 package hu.uni.eku.tzs.dao.entity;
 
+import hu.uni.eku.tzs.model.Transaction;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,7 +27,6 @@ public class SlideEntity {
     @Column
     private LocalDateTime slideCurrentTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
+    @OneToOne(mappedBy = "slide")
     private TransactionEntity transaction;
 }

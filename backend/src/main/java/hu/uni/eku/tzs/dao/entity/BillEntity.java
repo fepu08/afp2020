@@ -15,7 +15,6 @@ import java.util.UUID;
 @Setter
 @Table(name ="bills")
 public class BillEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -24,11 +23,11 @@ public class BillEntity {
     private UUID watchID;
 
     @Column
-    private UUID transactionID;
-
-    @Column
     private int finalPrice;
 
     @Column
     private LocalDateTime date;
+
+    @OneToOne(mappedBy = "bill")
+    private TransactionEntity transaction;
 }

@@ -22,12 +22,10 @@ public class GuestEntity {
     @Column
     private LocalDateTime arrivalDateTime;
 
-    @Column
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(referencedColumnName = "id")
     private WatchEntity watch;
 
-    @Column
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private TransactionEntity transaction;
