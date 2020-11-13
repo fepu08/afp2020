@@ -28,5 +28,4 @@ public class WatchEntity {
 
     @OneToOne(mappedBy = "watch")
     private GuestEntity guest;
-
 }

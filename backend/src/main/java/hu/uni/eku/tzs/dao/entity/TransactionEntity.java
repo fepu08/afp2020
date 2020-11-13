@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -24,14 +25,9 @@ public class TransactionEntity {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
+    @OneToMany(mappedBy = "transaction")
+    private Collection<SlideEntity> slips;
+
     @OneToOne(mappedBy = "transaction")
     private GuestEntity guest;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "slideID", referencedColumnName = "id")
-    private SlideEntity slide;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "billID", referencedColumnName = "id")
-    private BillEntity bill;
 }

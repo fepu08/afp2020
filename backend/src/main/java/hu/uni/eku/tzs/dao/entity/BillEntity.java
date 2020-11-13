@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,18 +17,20 @@ import java.util.UUID;
 @Table(name ="bills")
 public class BillEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column
     private UUID watchID;
 
     @Column
+    private UUID transactionID;
+
+    @OneToMany(mappedBy = "bill")
+    private List<BillItemEntity> items;
+
+    @Column
     private int finalPrice;
 
     @Column
     private LocalDateTime date;
-
-    @OneToOne(mappedBy = "bill")
-    private TransactionEntity transaction;
 }
