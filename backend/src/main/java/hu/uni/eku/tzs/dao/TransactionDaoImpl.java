@@ -1,11 +1,14 @@
 package hu.uni.eku.tzs.dao;
 
+import hu.uni.eku.tzs.dao.entity.SlideEntity;
 import hu.uni.eku.tzs.dao.entity.TransactionEntity;
+import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Transaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,7 +22,7 @@ public class TransactionDaoImpl implements TransactionDao{
     @Override
     public void create(Transaction transaction, Collection<Slide> slips) {
         TransactionEntity entity = TransactionEntityModelConverter.model2entity(transaction);
-        // TODO: entity.setSlips();
+        entity.setSlips(new ArrayList<SlideEntity>());
         repository.save(entity);
     }
 

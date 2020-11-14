@@ -2,6 +2,7 @@ package hu.uni.eku.tzs.service;
 
 import hu.uni.eku.tzs.controller.dto.CheckOutGuestRequestDto;
 import hu.uni.eku.tzs.controller.dto.GuestDto;
+import hu.uni.eku.tzs.controller.dto.WatchDto;
 import hu.uni.eku.tzs.dao.GuestDao;
 import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Transaction;
@@ -10,8 +11,10 @@ import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.TransactionManagementConfigurationSelector;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor

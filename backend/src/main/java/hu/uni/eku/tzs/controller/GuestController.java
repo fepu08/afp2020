@@ -2,12 +2,16 @@ package hu.uni.eku.tzs.controller;
 
 import hu.uni.eku.tzs.controller.dto.*;
 import hu.uni.eku.tzs.model.Guest;
+import hu.uni.eku.tzs.model.Transaction;
+import hu.uni.eku.tzs.model.Watch;
 import hu.uni.eku.tzs.service.GuestService;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,28 +46,14 @@ public class GuestController {
     @ResponseBody
     @ApiOperation(value= "Get all Guests")
     public Collection<GuestDto> getAllGuests(){
-        Collection<Guest> guests = service.getAllGuests();
-        Collection<GuestDto> returnDtos = new ArrayList<>();
-
-        for (Guest g : guests){
-            returnDtos.add(GuestDto.builder()
-                    .ID(g.getID())
-                    .arrivalDateTime(g.getArrivalDateTime())
-                    /**.watch(WatchDto.builder().watchID(g.getWatch().getWatchID()).build())
-                    .transactions(TransactionDto.builder()
-                            .ID(g.getTransactions().getID())
-                            .slips( g.getTransactions().getSlips().stream().map(
-                                    slide -> SlideDto.builder()
-                                    .ID(slide.getID())
-                                    .price(slide.getPrice())
-                                    .slideCurrentTime(slide.getSlideCurrentTime())
-                                    .build()).collect(Collectors.toList())
-                            )
-                            .build())*/
-                    .build());
-        }
-
-        return returnDtos;
+        return service.getAllGuests().stream().map(model ->
+                GuestDto.builder()
+                    .ID(model.getID())
+                    .arrivalDateTime(model.getArrivalDateTime())
+                    //.watch()
+                    //.transactions()
+                    .build()
+        ).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/{ID}"}, produces = MediaType.APPLICATION_JSON_VALUE)
