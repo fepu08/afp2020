@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RequiredArgsConstructor
 @Service
@@ -12,13 +14,15 @@ public class WatchDaoImpl implements WatchDao {
     private final WatchRepository repository;
 
     @Override
-    public void create() {
-
+    public void create(Watch watch) {
+        repository.save(WatchEntityModelConverter.model2entity(watch));
     }
 
     @Override
     public Collection<Watch> readAll() {
-        return null;
+        return StreamSupport.stream(repository.findAll().spliterator(), false)
+                .map(entity -> WatchEntityModelConverter.entity2model(entity))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -28,7 +32,7 @@ public class WatchDaoImpl implements WatchDao {
 
     @Override
     public void delete(Watch watch) {
-
+        
     }
 
     public static class WatchEntityModelConverter{

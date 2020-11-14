@@ -6,7 +6,7 @@ import hu.uni.eku.tzs.model.Watch;
 import java.util.Collection;
 
 public interface WatchDao {
-    void create();
+    void create(Watch watch);
 
     Collection<Watch> readAll();
 
