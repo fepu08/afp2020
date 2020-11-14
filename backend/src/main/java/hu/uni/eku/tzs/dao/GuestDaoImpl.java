@@ -1,6 +1,7 @@
 package hu.uni.eku.tzs.dao;
 
 import hu.uni.eku.tzs.dao.entity.GuestEntity;
+import hu.uni.eku.tzs.dao.entity.TransactionEntity;
 import hu.uni.eku.tzs.dao.entity.WatchEntity;
 import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
@@ -29,14 +30,13 @@ public class GuestDaoImpl implements GuestDao {
 
     @Override
     public Collection<Guest> readAll() {
-        return null;
-        /**return StreamSupport.stream(repository.findAll().spliterator(),false)
+        return StreamSupport.stream(repository.findAll().spliterator(),false)
                 .map(guestEntity -> GuestEntityModelConverter.entity2model(guestEntity))
-                .collect(Collectors.toList());*/
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void update(Guest original, Guest updated) {
+    public void update(int guestId, Guest updated) {
 
     }
 
@@ -45,22 +45,23 @@ public class GuestDaoImpl implements GuestDao {
 
     }
 
-    private static class GuestEntityModelConverter{
-        private static Guest entity2model(hu.uni.eku.tzs.dao.entity.GuestEntity entity){
+    @Override
+    public Guest findGuestById(int id) {
+        return GuestEntityModelConverter.entity2model(repository.findGuestById(id));
+    }
+
+    public static class GuestEntityModelConverter{
+        public static Guest entity2model(hu.uni.eku.tzs.dao.entity.GuestEntity entity){
             return new Guest(
-                    //entity.getWatch(),
                     entity.getId(),
                     entity.getArrivalDateTime()
-                    //entity.getTransaction()
             );
         }
 
-        private static hu.uni.eku.tzs.dao.entity.GuestEntity model2entity(Guest model){
+        public static hu.uni.eku.tzs.dao.entity.GuestEntity model2entity(Guest model){
             return hu.uni.eku.tzs.dao.entity.GuestEntity.builder()
                     .id(model.getID())
                     .arrivalDateTime(model.getArrivalDateTime())
-                    //.watch(model.getWatch())
-                    //.transaction(model.getTransactions())
                     .build();
         }
     }
