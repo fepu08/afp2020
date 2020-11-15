@@ -22,7 +22,7 @@ public class TransactionDaoImpl implements TransactionDao{
     @Override
     public void create(Transaction transaction, Collection<Slide> slips) {
         TransactionEntity entity = TransactionEntityModelConverter.model2entity(transaction);
-        entity.setSlips(SlideDaoImpl.SlideEntityModelConverter.collectionModel2collectionEntity(slips));
+        entity.setSlips(SlideDaoImpl.SlideEntityCollectionModelConverter.collectionModel2collectionEntity(slips));
         repository.save(entity);
     }
 
@@ -54,7 +54,7 @@ public class TransactionDaoImpl implements TransactionDao{
         public static Transaction entity2model(hu.uni.eku.tzs.dao.entity.TransactionEntity entity){
             return new Transaction(
                     entity.getId(),
-                    SlideDaoImpl.SlideEntityModelConverter.collectionEntity2collectionModel(entity.getSlips())
+                    SlideDaoImpl.SlideEntityCollectionModelConverter.collectionEntity2collectionModel(entity.getSlips())
             );
         }
 
