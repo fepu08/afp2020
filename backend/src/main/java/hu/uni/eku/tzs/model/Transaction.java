@@ -13,5 +13,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Transaction {
     private UUID ID;
-    //private Collection<Usage> usages;
+    private Collection<Slide> slips;
 }

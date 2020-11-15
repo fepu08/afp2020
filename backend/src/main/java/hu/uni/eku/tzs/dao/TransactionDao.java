@@ -15,7 +15,7 @@ public interface TransactionDao {
 
     void update(Transaction original, Transaction updated);
 
-    void delete(Transaction transaction);
+    void delete(int guestId);
 
     Transaction findTransactionByGuestId(int id);
 }

@@ -8,16 +8,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,7 +45,7 @@ public class GuestController {
         slips.add(SlideDto.builder()
                 .ID(1)
                 .price(1200)
-                .slideCurrentTime(null)
+                .slideCurrentTime(LocalDateTime.now())
                 .build());*/
         return service.getAllGuests().stream().map(model ->
                 GuestDto.builder()
@@ -59,7 +56,13 @@ public class GuestController {
                             .build())
                     .transactions(TransactionDto.builder()
                             .ID(service.getTransactionByGuestId(model.getID()).getID())
-                            .slips(TransactionDto.builder().build().getSlips())
+                            .slips(service.getTransactionByGuestId(model.getID()).getSlips().stream().map(slide ->
+                                        SlideDto.builder()
+                                        .ID(slide.getID())
+                                        .price(slide.getPrice())
+                                        .slideCurrentTime(slide.getSlideCurrentTime())
+                                        .build()
+                                    ).collect(Collectors.toList()))
                             .build())
                     .build()
         ).collect(Collectors.toList());
@@ -80,11 +83,40 @@ public class GuestController {
                             .build())
                     .transactions(TransactionDto.builder()
                             .ID(service.getTransactionByGuestId(guest.getID()).getID())
-                            //.slips()
+                            .slips(TransactionDto.builder().build().getSlips())
                             .build())
                     .build();
         } catch (GuestNotFoundByIDException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @PostMapping("/useSlide")
+    @ApiOperation(value = "Use slide")
+    public void useSlide( @RequestBody UseSlideRequestDto request ){
+        try {
+            Collection<GuestDto> guests = getAllGuests();
+            for (GuestDto guest : guests)
+            {
+                if (request.getWatchID().equals(guest.getWatch().getWatchID())){
+                    guest.getTransactions().getSlips().add(SlideDto.builder()
+                            .ID(service.getSlideById(request.getSlideId()).getID())
+                            .price(service.getSlideById(request.getSlideId()).getPrice())
+                            .slideCurrentTime(LocalDateTime.now())
+                            .build());
+
+                    /**log.info(SlideDto.builder()
+                     .ID(service.getSlideById(request.getSlideId()).getID())
+                     .price(service.getSlideById(request.getSlideId()).getPrice())
+                     .slideCurrentTime(LocalDateTime.now())
+                     .build().toString());*/
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.info(e.getMessage());
+            log.info("Nincs ilyen óra használatban: {}", request.getWatchID());
         }
     }
 

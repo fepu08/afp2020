@@ -12,7 +12,7 @@ public interface WatchDao {
 
     void update(Watch original, Watch updated);
 
-    void delete(Watch watch);
+    void delete(int guestId);
 
     Watch findWatchByUserId(int id);
 }

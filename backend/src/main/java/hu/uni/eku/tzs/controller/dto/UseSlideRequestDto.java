@@ -14,5 +14,4 @@ import java.util.UUID;
 public class UseSlideRequestDto {
     private UUID watchID;
     private int slideId;
-    private int price;
 }

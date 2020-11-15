@@ -15,6 +15,7 @@ import java.time.*;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -46,8 +47,10 @@ public class GuestDaoImpl implements GuestDao {
     }
 
     @Override
-    public void delete(Guest guest) {
-
+    public void delete(int guestId) {
+        hu.uni.eku.tzs.dao.entity.GuestEntity guestToDelete = repository.findGuestById(guestId);
+        if(guestToDelete != null)
+            repository.delete(guestToDelete);
     }
 
     @Override
@@ -56,8 +59,18 @@ public class GuestDaoImpl implements GuestDao {
     }
 
     @Override
+    public Guest usedSlide(UUID watchId) {
+        return GuestEntityModelConverter.entity2model(repository.findGuestByWatchId(watchId));
+    }
+
+    @Override
     public boolean IsFull() {
         return repository.numberOfCheckedInGuests() == 3;
+    }
+
+    @Override
+    public long checkedInGuests() {
+        return repository.numberOfCheckedInGuests();
     }
 
 

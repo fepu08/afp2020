@@ -116,7 +116,7 @@ public class AquaparkController {
                     guest.getTransactions().getSlips().add(
                             SlideDto.builder()
                                     .ID(request.getSlideId())
-                                    .price(request.getPrice())
+                                    //.price(request.getPrice())
                                     .slideCurrentTime(LocalDateTime.now())
                                     .build()
                     );

@@ -1,5 +1,6 @@
 package hu.uni.eku.tzs.dao;
 
+import hu.uni.eku.tzs.dao.entity.WatchEntity;
 import hu.uni.eku.tzs.model.Watch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,10 @@ public class WatchDaoImpl implements WatchDao {
     }
 
     @Override
-    public void delete(Watch watch) {
-        
+    public void delete(int guestId) {
+        hu.uni.eku.tzs.dao.entity.WatchEntity watchToDelete = repository.findWatchByGuestId(guestId);
+        if(watchToDelete != null)
+            repository.delete(watchToDelete);
     }
 
     @Override
