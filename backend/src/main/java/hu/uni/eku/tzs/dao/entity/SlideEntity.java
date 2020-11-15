@@ -28,6 +28,6 @@ public class SlideEntity {
     private LocalDateTime slideCurrentTime;
 
     @ManyToOne
-    @JoinColumn(name = "transaction_id", nullable = false)
+    @JoinColumn(name = "transaction_id")
     private TransactionEntity transaction;
 }
