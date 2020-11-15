@@ -70,18 +70,14 @@ public class GuestController {
 
             return GuestDto.builder()
                     .ID(guest.getID())
-                    //.watch(WatchDto.builder().watchID(guest.getWatch().getWatchID()).build())
                     .arrivalDateTime(guest.getArrivalDateTime())
-                    /**.transactions(TransactionDto.builder()
-                            .ID(guest.getTransactions().getID())
-                            .slips(guest.getTransactions().getSlips().stream().map(
-                                    slide -> SlideDto.builder()
-                                            .ID(slide.getID())
-                                            .price(slide.getPrice())
-                                            .slideCurrentTime(slide.getSlideCurrentTime())
-                                            .build()).collect(Collectors.toList())
-                            )
-                            .build())*/
+                    .watch(WatchDto.builder()
+                            .watchID(service.getWatchByGuestId(guest.getID()).getWatchID())
+                            .build())
+                    .transactions(TransactionDto.builder()
+                            .ID(service.getTransactionByGuestId(guest.getID()).getID())
+                            //.slips()
+                            .build())
                     .build();
         } catch (GuestNotFoundByIDException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
