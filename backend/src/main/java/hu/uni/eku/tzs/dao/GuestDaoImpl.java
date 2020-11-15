@@ -55,6 +55,12 @@ public class GuestDaoImpl implements GuestDao {
         return GuestEntityModelConverter.entity2model(repository.findGuestById(id));
     }
 
+    @Override
+    public boolean IsFull() {
+        return repository.numberOfCheckedInGuests() == 3;
+    }
+
+
     public static class GuestEntityModelConverter{
         public static Guest entity2model(hu.uni.eku.tzs.dao.entity.GuestEntity entity){
             return new Guest(

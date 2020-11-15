@@ -26,7 +26,12 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public void checkInGuest() {
-        dao.create(new Guest(), new Watch(), new Transaction());
+        if(dao.IsFull()){
+            log.info("Nincs több hely!");
+        }
+        else {
+            dao.create(new Guest(), new Watch(), new Transaction());
+        }
     }
 
     @Override

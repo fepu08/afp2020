@@ -17,4 +17,6 @@ public interface GuestDao {
     void delete(Guest guest);
 
     Guest findGuestById(int id);
+
+    boolean IsFull();
 }

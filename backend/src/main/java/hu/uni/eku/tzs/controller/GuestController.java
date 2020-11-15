@@ -2,8 +2,6 @@ package hu.uni.eku.tzs.controller;
 
 import hu.uni.eku.tzs.controller.dto.*;
 import hu.uni.eku.tzs.model.Guest;
-import hu.uni.eku.tzs.model.Transaction;
-import hu.uni.eku.tzs.model.Watch;
 import hu.uni.eku.tzs.service.GuestService;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import io.swagger.annotations.Api;
@@ -46,6 +44,12 @@ public class GuestController {
     @ResponseBody
     @ApiOperation(value= "Get all Guests")
     public Collection<GuestDto> getAllGuests(){
+        /**ArrayList<SlideDto> slips = new ArrayList<SlideDto>();
+        slips.add(SlideDto.builder()
+                .ID(1)
+                .price(1200)
+                .slideCurrentTime(null)
+                .build());*/
         return service.getAllGuests().stream().map(model ->
                 GuestDto.builder()
                     .ID(model.getID())
@@ -55,7 +59,7 @@ public class GuestController {
                             .build())
                     .transactions(TransactionDto.builder()
                             .ID(service.getTransactionByGuestId(model.getID()).getID())
-                            //.slips()
+                            .slips(TransactionDto.builder().build().getSlips())
                             .build())
                     .build()
         ).collect(Collectors.toList());
