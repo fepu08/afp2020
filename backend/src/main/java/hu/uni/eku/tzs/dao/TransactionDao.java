@@ -1,5 +1,6 @@
 package hu.uni.eku.tzs.dao;
 
+import hu.uni.eku.tzs.dao.entity.TransactionEntity;
 import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Transaction;
@@ -15,4 +16,6 @@ public interface TransactionDao {
     void update(Transaction original, Transaction updated);
 
     void delete(Transaction transaction);
+
+    Transaction findTransactionByGuestId(int id);
 }

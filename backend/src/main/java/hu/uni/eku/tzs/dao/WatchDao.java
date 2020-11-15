@@ -13,4 +13,6 @@ public interface WatchDao {
     void update(Watch original, Watch updated);
 
     void delete(Watch watch);
+
+    Watch findWatchByUserId(int id);
 }

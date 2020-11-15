@@ -50,8 +50,13 @@ public class GuestController {
                 GuestDto.builder()
                     .ID(model.getID())
                     .arrivalDateTime(model.getArrivalDateTime())
-                    //.watch()
-                    //.transactions()
+                    .watch(WatchDto.builder()
+                            .watchID(service.getWatchByGuestId(model.getID()).getWatchID())
+                            .build())
+                    .transactions(TransactionDto.builder()
+                            .ID(service.getTransactionByGuestId(model.getID()).getID())
+                            //.slips()
+                            .build())
                     .build()
         ).collect(Collectors.toList());
     }

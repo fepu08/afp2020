@@ -15,5 +15,7 @@ public interface GuestService {
     void checkInGuest();
     Collection<Guest> getAllGuests();
     Guest getGuestByID(int ID) throws GuestNotFoundByIDException;
+    Watch getWatchByGuestId(int id);
+    Transaction getTransactionByGuestId(int id);
     void checkOutGuest(CheckOutGuestRequestDto request);
 }

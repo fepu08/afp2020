@@ -43,6 +43,11 @@ public class TransactionDaoImpl implements TransactionDao{
 
     }
 
+    @Override
+    public Transaction findTransactionByGuestId(int id) {
+        return TransactionEntityModelConverter.entity2model(repository.findTransactionByGuestId(id));
+    }
+
     public static class TransactionEntityModelConverter{
         public static Transaction entity2model(hu.uni.eku.tzs.dao.entity.TransactionEntity entity){
             return new Transaction(

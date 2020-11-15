@@ -8,9 +8,13 @@ import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Transaction;
 import hu.uni.eku.tzs.model.Watch;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.*;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -25,6 +29,7 @@ public class GuestDaoImpl implements GuestDao {
         GuestEntity entity = GuestEntityModelConverter.model2entity(guest);
         entity.setWatch(WatchDaoImpl.WatchEntityModelConverter.model2entity(watch));
         entity.setTransaction(TransactionDaoImpl.TransactionEntityModelConverter.model2entity(transaction));
+        //entity.setArrivalDateTime();
         repository.save(entity);
     }
 
@@ -65,4 +70,5 @@ public class GuestDaoImpl implements GuestDao {
                     .build();
         }
     }
+
 }

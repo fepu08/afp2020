@@ -35,6 +35,11 @@ public class WatchDaoImpl implements WatchDao {
         
     }
 
+    @Override
+    public Watch findWatchByUserId(int id) {
+        return WatchEntityModelConverter.entity2model(repository.findWatchByGuestId(id));
+    }
+
     public static class WatchEntityModelConverter{
         public static Watch entity2model(hu.uni.eku.tzs.dao.entity.WatchEntity entity){
             return new Watch(
