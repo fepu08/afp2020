@@ -43,13 +43,6 @@ public class GuestController {
     @ResponseBody
     @ApiOperation(value= "Get all Guests")
     public Collection<GuestDto> getAllGuests(){
-        /**ArrayList<SlideDto> slips = new ArrayList<SlideDto>();
-        slips.add(SlideDto.builder()
-                .ID(1)
-                .price(1200)
-                .slideCurrentTime(LocalDateTime.now())
-                .build());*/
-        log.info("Usages debug" + service.getUsagesByTransactionId(service.getTransactionByGuestId(1).getID()).toString());
         return service.getAllGuests().stream().map(model ->
                 GuestDto.builder()
                     .ID(model.getID())
@@ -59,9 +52,10 @@ public class GuestController {
                             .build())
                     .transactions(TransactionDto.builder()
                             .ID(service.getTransactionByGuestId(model.getID()).getID())
-                            .slips(service.getUsagesByTransactionId(service.getTransactionByGuestId(model.getID()).getID()).stream().map(usage ->
+                            .slips(service.getUsagesByGuestId(model.getID()).stream().map(usage ->
                                         UsageDto.builder()
                                                 .id(usage.getId())
+                                                .guestId(model.getID())
                                                 .slide(SlideDto.builder()
                                                         .ID(service.getSlideByUsageId(usage.getId()).getID())
                                                         .price(service.getSlideByUsageId(usage.getId()).getPrice())
@@ -89,7 +83,17 @@ public class GuestController {
                             .build())
                     .transactions(TransactionDto.builder()
                             .ID(service.getTransactionByGuestId(guest.getID()).getID())
-                            .slips(TransactionDto.builder().build().getSlips())
+                            .slips(service.getUsagesByGuestId(guest.getID()).stream().map(usage ->
+                                        UsageDto.builder()
+                                            .id(usage.getId())
+                                            .guestId(guest.getID())
+                                            .slide(SlideDto.builder()
+                                                    .ID(service.getSlideByUsageId(usage.getId()).getID())
+                                                    .price(service.getSlideByUsageId(usage.getId()).getPrice()).build()
+                                            )
+                                            .timestamp(usage.getTimestamp())
+                                            .build()
+                                    ).collect(Collectors.toList()))
                             .build())
                     .build();
         } catch (GuestNotFoundByIDException e) {
@@ -106,6 +110,7 @@ public class GuestController {
             {
                 if (request.getWatchID().equals(guest.getWatch().getWatchID())){
                     guest.getTransactions().getSlips().add(UsageDto.builder()
+                            .guestId(guest.getID())
                             .slide(SlideDto.builder()
                                     .ID(service.getSlideById(request.getSlideId()).getID())
                                     .price(service.getSlideById(request.getSlideId()).getPrice())
@@ -115,23 +120,13 @@ public class GuestController {
 
                     service.recordUsage(new Usage(
                             0,
+                            guest.getID(),
                             new Slide(
                                     service.getSlideById(request.getSlideId()).getID(),
                                     service.getSlideById(request.getSlideId()).getPrice()
                             ),
                             LocalDateTime.now()
                     ), service.getTransactionByGuestId(guest.getID()));
-
-
-
-                    log.info("TransactionByGuestId:" + service.getTransactionByGuestId(guest.getID()));
-                    log.info("Guest transaction:" + guest.getTransactions());
-
-                    /**log.info(SlideDto.builder()
-                     .ID(service.getSlideById(request.getSlideId()).getID())
-                     .price(service.getSlideById(request.getSlideId()).getPrice())
-                     .slideCurrentTime(LocalDateTime.now())
-                     .build().toString());*/
                 }
             }
         }

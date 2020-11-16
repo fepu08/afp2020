@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface UsageRepository extends CrudRepository<UsageEntity, Integer> {
     @Query(
-            "SELECT u FROM UsageEntity u JOIN u.transaction t WHERE t.id=?1"
+            "SELECT u FROM UsageEntity u JOIN GuestEntity g ON g.id=u.guestId WHERE g.id=?1"
     )
-    Collection<UsageEntity> getUsagesByTransactionId(UUID id);
+    Collection<UsageEntity> getUsagesByGuestId(int id);
 }

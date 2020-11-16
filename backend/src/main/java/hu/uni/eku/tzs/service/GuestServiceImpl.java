@@ -43,8 +43,8 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public Collection<Usage> getUsagesByTransactionId(UUID id) {
-        return usageDao.getUsagesByTransactionId(id);
+    public Collection<Usage> getUsagesByGuestId(int id) {
+        return usageDao.getUsagesByGuestId(id);
     }
 
     @Override

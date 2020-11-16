@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Usage {
     private int id;
+    private int guestId;
     private Slide slide;
     LocalDateTime timestamp;
 }

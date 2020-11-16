@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class UsageDto {
     private int id;
+    private int guestId;
     private SlideDto slide;
     LocalDateTime timestamp;
 }

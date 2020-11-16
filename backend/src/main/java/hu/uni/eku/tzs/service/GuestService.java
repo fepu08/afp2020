@@ -14,7 +14,7 @@ public interface GuestService {
     void checkInGuest();
     void recordUsage(Usage usage, Transaction transaction);
     Collection<Guest> getAllGuests();
-    Collection<Usage> getUsagesByTransactionId(UUID id);
+    Collection<Usage> getUsagesByGuestId(int id);
     Guest getGuestByID(int ID) throws GuestNotFoundByIDException;
     Watch getWatchByGuestId(int id);
     Transaction getTransactionByGuestId(int id);

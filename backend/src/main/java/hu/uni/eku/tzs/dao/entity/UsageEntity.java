@@ -19,6 +19,9 @@ public class UsageEntity {
     private int id;
 
     @Column
+    private int guestId;
+
+    @Column
     private LocalDateTime timestamp;
 
     @ManyToOne

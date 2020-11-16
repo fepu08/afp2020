@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface UsageDao {
     void create(Usage usage, Transaction transaction);
 
-    Collection<Usage> getUsagesByTransactionId(UUID id);
+    Collection<Usage> getUsagesByGuestId(int id);
 
     Collection<Usage> readAllUsage();
 

@@ -1,8 +1,6 @@
 package hu.uni.eku.tzs.dao;
 
-import hu.uni.eku.tzs.dao.entity.SlideEntity;
 import hu.uni.eku.tzs.dao.entity.UsageEntity;
-import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Transaction;
 import hu.uni.eku.tzs.model.Usage;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +27,8 @@ public class UsageDaoImpl implements UsageDao {
     }
 
     @Override
-    public Collection<Usage> getUsagesByTransactionId(UUID id) {
-        return UsageEntityCollectionModelConverter.collectionEntity2collectionModel(repository.getUsagesByTransactionId(id));
+    public Collection<Usage> getUsagesByGuestId(int id) {
+        return UsageEntityCollectionModelConverter.collectionEntity2collectionModel(repository.getUsagesByGuestId(id));
     }
 
     @Override
@@ -54,6 +52,7 @@ public class UsageDaoImpl implements UsageDao {
         public static Usage entity2model(hu.uni.eku.tzs.dao.entity.UsageEntity entity){
             return new Usage(
                     entity.getId(),
+                    entity.getGuestId(),
                     SlideDaoImpl.SlideEntityModelConverter.entity2model(entity.getSlide()),
                     entity.getTimestamp()
             );
@@ -62,6 +61,7 @@ public class UsageDaoImpl implements UsageDao {
         public static hu.uni.eku.tzs.dao.entity.UsageEntity model2entity(Usage model){
             return hu.uni.eku.tzs.dao.entity.UsageEntity.builder()
                     .id(model.getId())
+                    .guestId(model.getGuestId())
                     .slide(SlideDaoImpl.SlideEntityModelConverter.model2entity(model.getSlide()))
                     .timestamp(model.getTimestamp())
                     .build();
