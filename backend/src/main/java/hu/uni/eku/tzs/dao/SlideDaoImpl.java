@@ -35,6 +35,11 @@ public class SlideDaoImpl implements SlideDao {
     }
 
     @Override
+    public Slide getSlideByUsageId(int id) {
+        return SlideEntityModelConverter.entity2model(repository.getSlideByUsageId(id));
+    }
+
+    @Override
     public void update(int originalSlideId, Slide updated) {
         hu.uni.eku.tzs.dao.entity.SlideEntity slideToUpdate = repository.getSlideById(originalSlideId);
         slideToUpdate.setPrice(updated.getPrice());
@@ -52,8 +57,7 @@ public class SlideDaoImpl implements SlideDao {
         public static Slide entity2model(hu.uni.eku.tzs.dao.entity.SlideEntity entity){
             return new Slide(
                     entity.getId(),
-                    entity.getPrice(),
-                    entity.getSlideCurrentTime()
+                    entity.getPrice()
             );
         }
 
@@ -61,26 +65,8 @@ public class SlideDaoImpl implements SlideDao {
             return hu.uni.eku.tzs.dao.entity.SlideEntity.builder()
                     .id(model.getID())
                     .price(model.getPrice())
-                    .slideCurrentTime(model.getSlideCurrentTime())
                     .build();
         }
     }
 
-    public static class SlideEntityCollectionModelConverter{
-        public static Collection<hu.uni.eku.tzs.dao.entity.SlideEntity> collectionModel2collectionEntity(Collection<Slide> modelCollection){
-            Collection<hu.uni.eku.tzs.dao.entity.SlideEntity> slideEntities = new ArrayList<SlideEntity>();
-            for (Slide slide : modelCollection){
-                slideEntities.add(SlideEntityModelConverter.model2entity(slide));
-            }
-            return slideEntities;
-        }
-
-        public static Collection<Slide> collectionEntity2collectionModel(Collection<hu.uni.eku.tzs.dao.entity.SlideEntity> entityCollection){
-            Collection<Slide> slides = new ArrayList<>();
-            for (SlideEntity slideEntity : entityCollection){
-                slides.add(SlideEntityModelConverter.entity2model(slideEntity));
-            }
-            return slides;
-        }
-    }
 }

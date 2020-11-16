@@ -2,27 +2,33 @@ package hu.uni.eku.tzs.dao;
 
 import hu.uni.eku.tzs.dao.entity.SlideEntity;
 import hu.uni.eku.tzs.dao.entity.TransactionEntity;
+import hu.uni.eku.tzs.dao.entity.UsageEntity;
 import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Transaction;
+import hu.uni.eku.tzs.model.Usage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TransactionDaoImpl implements TransactionDao{
     private final TransactionRepository repository;
 
     @Override
-    public void create(Transaction transaction, Collection<Slide> slips) {
+    public void create(Transaction transaction) {
         TransactionEntity entity = TransactionEntityModelConverter.model2entity(transaction);
-        entity.setSlips(SlideDaoImpl.SlideEntityCollectionModelConverter.collectionModel2collectionEntity(slips));
+        //entity.setSlips(new ArrayList<UsageEntity>());
+        //entity.setSlips(SlideDaoImpl.SlideEntityCollectionModelConverter.collectionModel2collectionEntity(slips));
         repository.save(entity);
     }
 
@@ -54,13 +60,14 @@ public class TransactionDaoImpl implements TransactionDao{
         public static Transaction entity2model(hu.uni.eku.tzs.dao.entity.TransactionEntity entity){
             return new Transaction(
                     entity.getId(),
-                    SlideDaoImpl.SlideEntityCollectionModelConverter.collectionEntity2collectionModel(entity.getSlips())
+                    UsageDaoImpl.UsageEntityCollectionModelConverter.collectionEntity2collectionModel(entity.getSlips())
             );
         }
 
         public static hu.uni.eku.tzs.dao.entity.TransactionEntity model2entity(Transaction model){
             return hu.uni.eku.tzs.dao.entity.TransactionEntity.builder()
                     .id(model.getID())
+                    .slips(UsageDaoImpl.UsageEntityCollectionModelConverter.collectionModel2collectionEntity(model.getSlips()))
                     .build();
         }
     }

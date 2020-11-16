@@ -16,7 +16,9 @@ public class WatchDaoImpl implements WatchDao {
 
     @Override
     public void create(Watch watch) {
-        repository.save(WatchEntityModelConverter.model2entity(watch));
+        WatchEntity entity = WatchEntityModelConverter.model2entity(watch);
+        entity.setInUse(false);
+        repository.save(entity);
     }
 
     @Override

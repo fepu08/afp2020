@@ -1,15 +1,8 @@
 package hu.uni.eku.tzs.service;
 
 import hu.uni.eku.tzs.controller.dto.CheckOutGuestRequestDto;
-import hu.uni.eku.tzs.controller.dto.SlideDto;
-import hu.uni.eku.tzs.dao.GuestDao;
-import hu.uni.eku.tzs.dao.SlideDao;
-import hu.uni.eku.tzs.dao.TransactionDao;
-import hu.uni.eku.tzs.dao.WatchDao;
-import hu.uni.eku.tzs.model.Guest;
-import hu.uni.eku.tzs.model.Slide;
-import hu.uni.eku.tzs.model.Transaction;
-import hu.uni.eku.tzs.model.Watch;
+import hu.uni.eku.tzs.dao.*;
+import hu.uni.eku.tzs.model.*;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +20,7 @@ public class GuestServiceImpl implements GuestService {
     private final WatchDao watchDao;
     private final TransactionDao transactionDao;
     private final SlideDao slideDao;
+    private final UsageDao usageDao;
 
     @Override
     public void checkInGuest() {
@@ -39,8 +33,18 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
+    public void recordUsage(Usage usage, Transaction transaction) {
+        usageDao.create(usage, transaction);
+    }
+
+    @Override
     public Collection<Guest> getAllGuests() {
             return dao.readAll();
+    }
+
+    @Override
+    public Collection<Usage> getUsagesByTransactionId(UUID id) {
+        return usageDao.getUsagesByTransactionId(id);
     }
 
     @Override
@@ -69,6 +73,11 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public Slide getSlideById(int id) {
         return slideDao.readAll().stream().filter(slide -> slide.getID() == id).findFirst().orElse(null);
+    }
+
+    @Override
+    public Slide getSlideByUsageId(int id) {
+        return slideDao.getSlideByUsageId(id);
     }
 
 

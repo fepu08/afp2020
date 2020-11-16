@@ -2,6 +2,8 @@ package hu.uni.eku.tzs.controller;
 
 import hu.uni.eku.tzs.controller.dto.*;
 import hu.uni.eku.tzs.model.Guest;
+import hu.uni.eku.tzs.model.Slide;
+import hu.uni.eku.tzs.model.Usage;
 import hu.uni.eku.tzs.service.GuestService;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
 import io.swagger.annotations.Api;
@@ -47,6 +49,7 @@ public class GuestController {
                 .price(1200)
                 .slideCurrentTime(LocalDateTime.now())
                 .build());*/
+        log.info("Usages debug" + service.getUsagesByTransactionId(service.getTransactionByGuestId(1).getID()).toString());
         return service.getAllGuests().stream().map(model ->
                 GuestDto.builder()
                     .ID(model.getID())
@@ -56,12 +59,15 @@ public class GuestController {
                             .build())
                     .transactions(TransactionDto.builder()
                             .ID(service.getTransactionByGuestId(model.getID()).getID())
-                            .slips(service.getTransactionByGuestId(model.getID()).getSlips().stream().map(slide ->
-                                        SlideDto.builder()
-                                        .ID(slide.getID())
-                                        .price(slide.getPrice())
-                                        .slideCurrentTime(slide.getSlideCurrentTime())
-                                        .build()
+                            .slips(service.getUsagesByTransactionId(service.getTransactionByGuestId(model.getID()).getID()).stream().map(usage ->
+                                        UsageDto.builder()
+                                                .id(usage.getId())
+                                                .slide(SlideDto.builder()
+                                                        .ID(service.getSlideByUsageId(usage.getId()).getID())
+                                                        .price(service.getSlideByUsageId(usage.getId()).getPrice())
+                                                        .build())
+                                                .timestamp(usage.getTimestamp())
+                                                .build()
                                     ).collect(Collectors.toList()))
                             .build())
                     .build()
@@ -99,11 +105,27 @@ public class GuestController {
             for (GuestDto guest : guests)
             {
                 if (request.getWatchID().equals(guest.getWatch().getWatchID())){
-                    guest.getTransactions().getSlips().add(SlideDto.builder()
-                            .ID(service.getSlideById(request.getSlideId()).getID())
-                            .price(service.getSlideById(request.getSlideId()).getPrice())
-                            .slideCurrentTime(LocalDateTime.now())
+                    guest.getTransactions().getSlips().add(UsageDto.builder()
+                            .slide(SlideDto.builder()
+                                    .ID(service.getSlideById(request.getSlideId()).getID())
+                                    .price(service.getSlideById(request.getSlideId()).getPrice())
+                                    .build())
+                            .timestamp(LocalDateTime.now())
                             .build());
+
+                    service.recordUsage(new Usage(
+                            0,
+                            new Slide(
+                                    service.getSlideById(request.getSlideId()).getID(),
+                                    service.getSlideById(request.getSlideId()).getPrice()
+                            ),
+                            LocalDateTime.now()
+                    ), service.getTransactionByGuestId(guest.getID()));
+
+
+
+                    log.info("TransactionByGuestId:" + service.getTransactionByGuestId(guest.getID()));
+                    log.info("Guest transaction:" + guest.getTransactions());
 
                     /**log.info(SlideDto.builder()
                      .ID(service.getSlideById(request.getSlideId()).getID())

@@ -10,8 +10,9 @@ public interface SlideDao {
 
     Collection<Slide> readAll();
 
-
     Slide getSlideById(int id);
+
+    Slide getSlideByUsageId(int id);
 
     void update(int originalSlideId, Slide updated);
 

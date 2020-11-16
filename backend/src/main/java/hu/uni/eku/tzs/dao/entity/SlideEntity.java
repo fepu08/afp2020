@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -24,10 +25,6 @@ public class SlideEntity {
     @Column
     private int price;
 
-    @Column
-    private LocalDateTime slideCurrentTime;
-
-    @ManyToOne
-    @JoinColumn(name = "transaction_id")
-    private TransactionEntity transaction;
+    @OneToMany(mappedBy = "slide")
+    private Collection<UsageEntity> usage;
 }

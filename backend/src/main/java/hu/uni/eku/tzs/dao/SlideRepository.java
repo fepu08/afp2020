@@ -11,7 +11,7 @@ public interface SlideRepository extends CrudRepository<SlideEntity, Integer> {
     SlideEntity getSlideById(int id);
 
     @Query(
-            "SELECT slide FROM SlideEntity slide WHERE slide.transaction.id=?1"
+            "SELECT s FROM SlideEntity s JOIN s.usage u WHERE u.id=?1"
     )
-    Collection<SlideEntity> getSlidesByTransactionId(UUID transactionId);
+    SlideEntity getSlideByUsageId(int id);
 }

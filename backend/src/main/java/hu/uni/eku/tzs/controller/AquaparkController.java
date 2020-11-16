@@ -94,11 +94,11 @@ public class AquaparkController {
 
         Collection<SlideDto> slips = new ArrayList<>();
 
-        for (GuestDto guest : guests){
+        /**for (GuestDto guest : guests){
             if (guest.getID() == ID){
                 slips = guest.getTransactions().getSlips();
             }
-        }
+        }*/
 
         return slips;
     }
@@ -113,13 +113,13 @@ public class AquaparkController {
                 if (request.getWatchID().equals(guest.getWatch().getWatchID())){
 
                     // Hozzá adjuk a csuszda árát és ID-jet a tranzakciós listához
-                    guest.getTransactions().getSlips().add(
+                    /**guest.getTransactions().getSlips().add(
                             SlideDto.builder()
                                     .ID(request.getSlideId())
                                     //.price(request.getPrice())
                                     .slideCurrentTime(LocalDateTime.now())
                                     .build()
-                    );
+                    );*/
                 }
             }
         }
@@ -144,7 +144,7 @@ public class AquaparkController {
                 .date(LocalDateTime.now())
                 .build();
 
-        for (SlideDto slip : guest.getTransactions().getSlips()){
+        /**for (SlideDto slip : guest.getTransactions().getSlips()){
             boolean itemExist = false;
 
             BillItemDto newBillItem = BillItemDto.builder()
@@ -173,7 +173,7 @@ public class AquaparkController {
             }
 
             finalPrice += slip.getPrice();
-        }
+        }*/
 
         bill.setFinalPrice(finalPrice);
 

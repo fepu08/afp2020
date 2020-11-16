@@ -2,23 +2,23 @@ package hu.uni.eku.tzs.dao;
 
 import hu.uni.eku.tzs.dao.entity.GuestEntity;
 import hu.uni.eku.tzs.dao.entity.TransactionEntity;
+import hu.uni.eku.tzs.dao.entity.UsageEntity;
 import hu.uni.eku.tzs.dao.entity.WatchEntity;
 import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Transaction;
 import hu.uni.eku.tzs.model.Watch;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class GuestDaoImpl implements GuestDao {
@@ -30,7 +30,7 @@ public class GuestDaoImpl implements GuestDao {
         GuestEntity entity = GuestEntityModelConverter.model2entity(guest);
         entity.setWatch(WatchDaoImpl.WatchEntityModelConverter.model2entity(watch));
         entity.setTransaction(TransactionDaoImpl.TransactionEntityModelConverter.model2entity(transaction));
-        //entity.setArrivalDateTime();
+        entity.setArrivalDateTime(LocalDateTime.now());
         repository.save(entity);
     }
 

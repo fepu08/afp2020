@@ -26,7 +26,7 @@ public class TransactionEntity {
     private UUID id;
 
     @OneToMany(mappedBy = "transaction")
-    private Collection<SlideEntity> slips;
+    private Collection<UsageEntity> slips;
 
     @OneToOne(mappedBy = "transaction")
     private GuestEntity guest;
