@@ -137,9 +137,9 @@ public class GuestController {
         }
     }
 
-    @PostMapping("/checkOutGuest")
+    @DeleteMapping("/checkOutGuest/{ID}")
     @ApiOperation(value = "Check out guest")
-    public void checkOutGuest(@RequestBody CheckOutGuestRequestDto request){
-        service.checkOutGuest(request);
+    public void checkOutGuest(@PathVariable int ID){
+        service.checkOutGuest(ID);
     }
 }

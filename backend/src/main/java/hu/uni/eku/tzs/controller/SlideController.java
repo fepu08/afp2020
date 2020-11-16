@@ -65,7 +65,7 @@ public class SlideController {
     }
 
     @DeleteMapping(value = {"/{ID}"})
-    @ApiOperation(value = "Delete a watch")
+    @ApiOperation(value = "Delete a slide by id")
     public void delete(@PathVariable int ID) {
         try {
             slideService.delete(ID);

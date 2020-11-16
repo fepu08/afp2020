@@ -82,10 +82,8 @@ public class GuestServiceImpl implements GuestService {
 
 
     @Override
-    public void checkOutGuest(CheckOutGuestRequestDto request) {
-        watchDao.delete(request.getGuestID());
-        transactionDao.delete(request.getGuestID());
-        dao.delete(request.getGuestID());
+    public void checkOutGuest(int id) {
+        dao.delete(id);
     }
 
     @Override

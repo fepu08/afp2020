@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -45,8 +46,8 @@ public class TransactionDaoImpl implements TransactionDao{
     }
 
     @Override
-    public void delete(int guestId) {
-        hu.uni.eku.tzs.dao.entity.TransactionEntity transactionToDelete = repository.findTransactionByGuestId(guestId);
+    public void delete(UUID transactionId) {
+        hu.uni.eku.tzs.dao.entity.TransactionEntity transactionToDelete = repository.findTransactionById(transactionId);
         if(transactionToDelete != null)
             repository.delete(transactionToDelete);
     }
@@ -54,6 +55,11 @@ public class TransactionDaoImpl implements TransactionDao{
     @Override
     public Transaction findTransactionByGuestId(int id) {
         return TransactionEntityModelConverter.entity2model(repository.findTransactionByGuestId(id));
+    }
+
+    @Override
+    public Transaction findTransactionById(UUID transactionId) {
+        return TransactionEntityModelConverter.entity2model(repository.findTransactionById(transactionId));
     }
 
     public static class TransactionEntityModelConverter{

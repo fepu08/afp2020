@@ -20,6 +20,6 @@ public interface GuestService {
     Transaction getTransactionByGuestId(int id);
     Slide getSlideById(int id);
     Slide getSlideByUsageId(int id);
-    void checkOutGuest(CheckOutGuestRequestDto request);
+    void checkOutGuest(int id);
     Guest usedSlide(UUID watchId);
 }

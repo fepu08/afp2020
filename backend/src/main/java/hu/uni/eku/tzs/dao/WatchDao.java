@@ -1,9 +1,9 @@
 package hu.uni.eku.tzs.dao;
 
-import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Watch;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public interface WatchDao {
     void create(Watch watch);
@@ -12,7 +12,11 @@ public interface WatchDao {
 
     void update(Watch original, Watch updated);
 
-    void delete(int guestId);
+    void delete(UUID watchId);
+
+    void setWatchInactive(UUID watchId);
 
     Watch findWatchByUserId(int id);
+
+    Watch findWatchById(UUID watchId);
 }

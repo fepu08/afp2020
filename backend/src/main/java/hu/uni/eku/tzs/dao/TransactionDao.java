@@ -4,6 +4,7 @@ import hu.uni.eku.tzs.dao.entity.TransactionEntity;
 import hu.uni.eku.tzs.model.*;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public interface TransactionDao {
     void create(Transaction transaction);
@@ -12,7 +13,9 @@ public interface TransactionDao {
 
     void update(Transaction original, Transaction updated);
 
-    void delete(int guestId);
+    void delete(UUID transactionId);
 
     Transaction findTransactionByGuestId(int id);
+
+    Transaction findTransactionById(UUID transactionId);
 }

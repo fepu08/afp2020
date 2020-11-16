@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,7 +18,7 @@ public class WatchDaoImpl implements WatchDao {
     @Override
     public void create(Watch watch) {
         WatchEntity entity = WatchEntityModelConverter.model2entity(watch);
-        entity.setInUse(false);
+        entity.setInUse(true);
         repository.save(entity);
     }
 
@@ -34,15 +35,25 @@ public class WatchDaoImpl implements WatchDao {
     }
 
     @Override
-    public void delete(int guestId) {
-        hu.uni.eku.tzs.dao.entity.WatchEntity watchToDelete = repository.findWatchByGuestId(guestId);
+    public void delete(UUID watchId) {
+        hu.uni.eku.tzs.dao.entity.WatchEntity watchToDelete = repository.findWatchById(watchId);
         if(watchToDelete != null)
             repository.delete(watchToDelete);
     }
 
     @Override
+    public void setWatchInactive(UUID watchId) {
+        repository.setWatchInactiveById(watchId);
+    }
+
+    @Override
     public Watch findWatchByUserId(int id) {
         return WatchEntityModelConverter.entity2model(repository.findWatchByGuestId(id));
+    }
+
+    @Override
+    public Watch findWatchById(UUID watchId) {
+        return WatchEntityModelConverter.entity2model(repository.findWatchById(watchId));
     }
 
     public static class WatchEntityModelConverter{
