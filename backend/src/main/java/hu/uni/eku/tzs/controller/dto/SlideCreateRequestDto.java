@@ -14,4 +14,5 @@ import java.time.LocalDateTime;
 public class SlideCreateRequestDto {
     private int ID;
     private int price;
+    private String slideName;
 }

@@ -59,6 +59,7 @@ public class GuestController {
                                                 .slide(SlideDto.builder()
                                                         .ID(service.getSlideByUsageId(usage.getId()).getID())
                                                         .price(service.getSlideByUsageId(usage.getId()).getPrice())
+                                                        .slideName(service.getSlideByUsageId(usage.getId()).getSlideName())
                                                         .build())
                                                 .timestamp(usage.getTimestamp())
                                                 .build()
@@ -89,7 +90,9 @@ public class GuestController {
                                             .guestId(guest.getID())
                                             .slide(SlideDto.builder()
                                                     .ID(service.getSlideByUsageId(usage.getId()).getID())
-                                                    .price(service.getSlideByUsageId(usage.getId()).getPrice()).build()
+                                                    .price(service.getSlideByUsageId(usage.getId()).getPrice())
+                                                    .slideName(service.getSlideByUsageId(usage.getId()).getSlideName())
+                                                    .build()
                                             )
                                             .timestamp(usage.getTimestamp())
                                             .build()
@@ -114,6 +117,7 @@ public class GuestController {
                             .slide(SlideDto.builder()
                                     .ID(service.getSlideById(request.getSlideId()).getID())
                                     .price(service.getSlideById(request.getSlideId()).getPrice())
+                                    .slideName(service.getSlideById(request.getSlideId()).getSlideName())
                                     .build())
                             .timestamp(LocalDateTime.now())
                             .build());
@@ -123,7 +127,8 @@ public class GuestController {
                             guest.getID(),
                             new Slide(
                                     service.getSlideById(request.getSlideId()).getID(),
-                                    service.getSlideById(request.getSlideId()).getPrice()
+                                    service.getSlideById(request.getSlideId()).getPrice(),
+                                    service.getSlideById(request.getSlideId()).getSlideName()
                             ),
                             LocalDateTime.now()
                     ), service.getTransactionByGuestId(guest.getID()));

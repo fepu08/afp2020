@@ -11,4 +11,5 @@ import java.util.UUID;
 public class SlideDto {
     private int ID;
     private int price;
+    private String slideName;
 }

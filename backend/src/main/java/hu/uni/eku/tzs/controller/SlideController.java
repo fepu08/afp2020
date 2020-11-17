@@ -31,7 +31,8 @@ public class SlideController {
     public void createSlide(@RequestBody SlideCreateRequestDto request){
         slideService.create(new Slide(
                     0,
-                    request.getPrice()
+                    request.getPrice(),
+                    request.getSlideName()
                 )
         );
     }
@@ -44,6 +45,7 @@ public class SlideController {
                 SlideDto.builder()
                 .ID(model.getID())
                 .price(model.getPrice())
+                .slideName(model.getSlideName())
                 .build()
                 ).collect(Collectors.toList());
     }
@@ -58,6 +60,7 @@ public class SlideController {
             return SlideDto.builder()
                     .ID(slide.getID())
                     .price(slide.getPrice())
+                    .slideName(slide.getSlideName())
                     .build();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
@@ -80,7 +83,8 @@ public class SlideController {
         try {
             slideService.update(ID, new Slide(
                     0,
-                    request.getPrice()
+                    request.getPrice(),
+                    request.getSlideName()
             ));
         } catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

@@ -43,6 +43,7 @@ public class SlideDaoImpl implements SlideDao {
     public void update(int originalSlideId, Slide updated) {
         hu.uni.eku.tzs.dao.entity.SlideEntity slideToUpdate = repository.getSlideById(originalSlideId);
         slideToUpdate.setPrice(updated.getPrice());
+        slideToUpdate.setSlideName(updated.getSlideName());
         repository.save(slideToUpdate);
     }
 
@@ -57,7 +58,8 @@ public class SlideDaoImpl implements SlideDao {
         public static Slide entity2model(hu.uni.eku.tzs.dao.entity.SlideEntity entity){
             return new Slide(
                     entity.getId(),
-                    entity.getPrice()
+                    entity.getPrice(),
+                    entity.getSlideName()
             );
         }
 
@@ -65,6 +67,7 @@ public class SlideDaoImpl implements SlideDao {
             return hu.uni.eku.tzs.dao.entity.SlideEntity.builder()
                     .id(model.getID())
                     .price(model.getPrice())
+                    .slideName(model.getSlideName())
                     .build();
         }
     }

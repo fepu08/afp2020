@@ -1,13 +1,9 @@
 package hu.uni.eku.tzs.dao.entity;
 
-import hu.uni.eku.tzs.model.Transaction;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -25,6 +21,9 @@ public class SlideEntity {
     @Column
     private int price;
 
-    @OneToMany(mappedBy = "slide")
+    @Column
+    private String slideName;
+
+    @OneToMany(mappedBy = "slide", orphanRemoval = true)
     private Collection<UsageEntity> usage;
 }
