@@ -5,7 +5,10 @@ import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.model.Usage;
 import hu.uni.eku.tzs.service.GuestService;
+import hu.uni.eku.tzs.service.exceptions.AquaparkFullException;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
+import hu.uni.eku.tzs.service.exceptions.SlideNotFoundByIdException;
+import hu.uni.eku.tzs.service.exceptions.WatchNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +36,7 @@ public class GuestController {
         try {
             service.checkInGuest();
         }
-        catch (Exception e)
-        {
+        catch (AquaparkFullException e){
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
@@ -135,16 +137,19 @@ public class GuestController {
                 }
             }
         }
-        catch (Exception e)
-        {
-            log.info(e.getMessage());
-            log.info("Nincs ilyen óra használatban: {}", request.getWatchID());
+        catch (SlideNotFoundByIdException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     @DeleteMapping("/checkOutGuest/{ID}")
     @ApiOperation(value = "Check out guest")
     public void checkOutGuest(@PathVariable int ID){
-        service.checkOutGuest(ID);
+        try {
+            service.checkOutGuest(ID);
+        }
+        catch(GuestNotFoundByIDException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 }

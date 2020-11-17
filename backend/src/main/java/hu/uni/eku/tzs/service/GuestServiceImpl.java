@@ -1,9 +1,10 @@
 package hu.uni.eku.tzs.service;
 
-import hu.uni.eku.tzs.controller.dto.CheckOutGuestRequestDto;
 import hu.uni.eku.tzs.dao.*;
 import hu.uni.eku.tzs.model.*;
+import hu.uni.eku.tzs.service.exceptions.AquaparkFullException;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
+import hu.uni.eku.tzs.service.exceptions.SlideNotFoundByIdException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class GuestServiceImpl implements GuestService {
     private final UsageDao usageDao;
 
     @Override
-    public void checkInGuest() {
+    public void checkInGuest() throws AquaparkFullException {
         if(dao.IsFull()){
-            log.info("Nincs több hely!");
+            throw new AquaparkFullException("Nincs több hely az aquaparkban!");
         }
         else {
             dao.create(new Guest(), new Watch(), new Transaction());
@@ -49,19 +50,14 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public Guest getGuestByID(int ID) throws GuestNotFoundByIDException {
-        Collection<Guest> guests = getAllGuests();
-
-        for (Guest guest: guests) {
-            if(guest.getID() == ID){
-                return guest;
-            }
-        }
-
-        throw new GuestNotFoundByIDException();
+        Guest guest = getAllGuests().stream().filter(g -> g.getID() == ID).findFirst().orElse(null);
+        if (guest == null)
+            throw new GuestNotFoundByIDException(String.format("Nem létezik vendég ezzel az ID-vel: %s", ID));
+        else return guest;
     }
 
     @Override
-    public Watch getWatchByGuestId(int id) {
+    public Watch getWatchByGuestId(int id){
         return watchDao.findWatchByUserId(id);
     }
 
@@ -71,19 +67,24 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public Slide getSlideById(int id) {
-        return slideDao.readAll().stream().filter(slide -> slide.getID() == id).findFirst().orElse(null);
+    public Slide getSlideById(int id) throws SlideNotFoundByIdException{
+        Slide slide = slideDao.readAll().stream().filter(s -> s.getID() == id).findFirst().orElse(null);
+        if (slide == null)
+            throw new SlideNotFoundByIdException("Ez a csúszda nem létezik!");
+        else return slide;
     }
 
     @Override
     public Slide getSlideByUsageId(int id) {
-        return slideDao.getSlideByUsageId(id);
+            return slideDao.getSlideByUsageId(id);
     }
 
-
     @Override
-    public void checkOutGuest(int id) {
-        dao.delete(id);
+    public void checkOutGuest(int id) throws GuestNotFoundByIDException {
+        Guest guest = dao.readAll().stream().filter(g -> g.getID() == id).findFirst().orElse(null);
+        if(guest == null)
+            throw new GuestNotFoundByIDException(String.format("Nem létezik vendég ilyen ID-vel: %s",id));
+        else dao.delete(id);
     }
 
     @Override
