@@ -5,6 +5,8 @@ import hu.uni.eku.tzs.model.Guest;
 import hu.uni.eku.tzs.model.Slide;
 import hu.uni.eku.tzs.service.SlideService;
 import hu.uni.eku.tzs.service.exceptions.GuestNotFoundByIDException;
+import hu.uni.eku.tzs.service.exceptions.SlideAlreadyExistsException;
+import hu.uni.eku.tzs.service.exceptions.SlideNotFoundByIdException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.nio.channels.ReadPendingException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -29,12 +32,17 @@ public class SlideController {
     @PostMapping("/record")
     @ApiOperation(value = "Create new slide")
     public void createSlide(@RequestBody SlideCreateRequestDto request){
-        slideService.create(new Slide(
-                    0,
-                    request.getPrice(),
-                    request.getSlideName()
-                )
-        );
+        try {
+            slideService.create(new Slide(
+                            0,
+                            request.getPrice(),
+                            request.getSlideName()
+                    )
+            );
+        }
+        catch(SlideAlreadyExistsException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @GetMapping(value = {"/"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +70,7 @@ public class SlideController {
                     .price(slide.getPrice())
                     .slideName(slide.getSlideName())
                     .build();
-        } catch (Exception e) {
+        } catch (SlideNotFoundByIdException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
@@ -72,7 +80,7 @@ public class SlideController {
     public void delete(@PathVariable int ID) {
         try {
             slideService.delete(ID);
-        } catch (Exception e) {
+        } catch (SlideNotFoundByIdException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
@@ -86,7 +94,7 @@ public class SlideController {
                     request.getPrice(),
                     request.getSlideName()
             ));
-        } catch(Exception e) {
+        } catch(SlideNotFoundByIdException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }

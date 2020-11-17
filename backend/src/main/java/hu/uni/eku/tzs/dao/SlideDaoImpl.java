@@ -56,11 +56,16 @@ public class SlideDaoImpl implements SlideDao {
 
     public static class SlideEntityModelConverter{
         public static Slide entity2model(hu.uni.eku.tzs.dao.entity.SlideEntity entity){
-            return new Slide(
-                    entity.getId(),
-                    entity.getPrice(),
-                    entity.getSlideName()
-            );
+            try {
+                return new Slide(
+                        entity.getId(),
+                        entity.getPrice(),
+                        entity.getSlideName()
+                );
+            }
+            catch (Exception e){
+                return null;
+            }
         }
 
         public static hu.uni.eku.tzs.dao.entity.SlideEntity model2entity(Slide model){
