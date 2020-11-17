@@ -1,14 +1,16 @@
-package hu.uni.eku.tzs.controller.dto;
+package hu.uni.eku.tzs.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Builder
-public class SlideDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Slide {
     private int ID;
     private int price;
     private String slideName;

@@ -2,6 +2,7 @@ package hu.uni.eku.tzs.controller.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import org.jboss.jandex.TypeTarget;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -10,5 +11,5 @@ import java.util.UUID;
 @Builder
 public class TransactionDto {
     private UUID ID;
-    private Collection<SlideDto> slips;
+    private Collection<UsageDto> slips;
 }

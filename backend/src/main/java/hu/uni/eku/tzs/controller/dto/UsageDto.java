@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
-public class SlideDto {
-    private int ID;
-    private int price;
-    private String slideName;
+public class UsageDto {
+    private int id;
+    private int guestId;
+    private SlideDto slide;
+    LocalDateTime timestamp;
 }
