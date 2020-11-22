@@ -32,6 +32,10 @@ class GuestRecordingForm extends React.Component{
                 <Col xs={12} md={6} className={"my-2"}>
                     <button className="btn btn-primary btn-lg btn-block" onClick={()=> actions.fetchGuest()}>List all Guests</button>
                 </Col>
+                {/* Create new Guest */}
+                <Col xs={12} md={6} className={"my-2"}>
+                    <button className="btn btn-success btn-lg btn-block" onClick={()=> actions.checkInGuest()}>Create New Guest</button>
+                </Col>
             </Fragment>
         )
     }
