@@ -1,21 +1,39 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import './App.scss';
-import ComplexNumberRecordingForm from "./component/ComplexNumberRecordingForm";
-import ComplexNumberList from "./component/ComplexNumberList";
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import ErrorMessageWell from "./component/ErrorMessageWell";
+import NavbarComponent from "./component/layout/NavbarComponent";
 
 function App() {
-  return (
-    <div className={["App","container"]}>
-        <div className={"row"}>
-            <div className={"col-md-3"}></div>
-            <div className={"col-md-6"}>
-                <ComplexNumberRecordingForm/>
-                <ComplexNumberList/>
-            </div>
-            <div className={"col-md-3"}></div>
+    return (
+        <div className={"App"}>
+           <Router>
+               <NavbarComponent/> {/* NEM lehet a Routeren kívülre helyezni*/}
+               <div className={"container"}>
+                   <ErrorMessageWell/>
+                   <Switch>
+                       <Route exact path={"/"} render={
+                           () => (
+                               <p>This is the home page</p>
+                           )
+                       }/>
+
+                       <Route exact path={"/Guests"} render={
+                           () => (
+                               <p>This is the Guests page</p>
+                           )
+                       }/>
+
+                       <Route exact path={"/Slides"} render={
+                           () => (
+                               <p>This is the Slides page</p>
+                           )
+                       }/>
+                   </Switch>
+               </div>
+           </Router>
         </div>
-    </div>
-  );
+    );
 }
 
 export default App;
