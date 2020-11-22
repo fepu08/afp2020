@@ -1,8 +1,8 @@
 import React from 'react';
 import {Col} from "react-bootstrap";
+import Slips from "./GuestTransactionSlips";
 
 function GuestListItem({id, arrivalDateTime, transactions, watch }){
-    //TODO: GuestListItem: kiíratni a transactionokat
     return (
         <Col xs={"12"} className={"my-3"}>
             <div className={"card"}>
@@ -15,6 +15,7 @@ function GuestListItem({id, arrivalDateTime, transactions, watch }){
                             <ul>
                                 <li>ID: {transactions.id}</li>
                                 <li>Slips:
+                                    <Slips slips={transactions.slips}/>
                                 </li>
                             </ul>
                         </li>
