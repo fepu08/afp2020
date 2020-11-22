@@ -26,5 +26,16 @@ export const checkInGuest = () => {
         });
 }
 //TODO: getGuestById
-//TODO: deleteGuest
+
+export const deleteGuest = (deleteGuestId) => {
+    axios.delete('/Guest/checkOutGuest/' + deleteGuestId)
+        .then(() => {
+            fetchGuest();
+        })
+        .catch((err) => {
+            console.log(err);
+            fetchGuest();
+        });
+}
+
 //TODO: useSlide
