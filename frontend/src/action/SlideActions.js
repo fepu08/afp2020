@@ -41,7 +41,17 @@ export const getSlideById = (slideId) => {
 }
 
 //TODO: updateSlide
-//TODO: deleteSlide
+
+export const deleteSlideById = (slideId) => {
+    axios.delete('/Slide/' + slideId)
+        .then(() => {
+            fetchSlide();
+        })
+        .catch((err) => {
+            console.log(err);
+            fetchSlide();
+        });
+}
 
 export const fetchSlide = () =>{
     axios.get('/Slide/').then((resp)=>{
