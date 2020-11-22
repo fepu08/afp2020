@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col} from "react-bootstrap";
 import GuestTransactionSlips from "./GuestTransactionSlips";
-import SlideListItemForGuestTransaction from "../slides/SlideListItemForGuestTransaction";
+import GuestUseSlide from "./GuestUseSlide";
 
 function GuestListItem({id, arrivalDateTime, transactions, watch }){
     return (
@@ -23,6 +23,7 @@ function GuestListItem({id, arrivalDateTime, transactions, watch }){
                         <li >Watch ID: {watch.watchID}</li>
                     </ul>
                     <hr/>
+                    <GuestUseSlide watchId={watch.watchID}/>
                 </div>
             </div>
         </Col>
