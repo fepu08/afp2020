@@ -16,7 +16,7 @@ function App() {
                <NavbarComponent/> {/* NEM lehet a Routeren kívülre helyezni*/}
                <div className={"container"}>
                    <ErrorMessageWell/>
-                   <Switch>
+                   <Switch>g
                        <Route exact path={"/"} render={
                            () => (
                                <Row>
