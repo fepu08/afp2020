@@ -41,6 +41,22 @@ class GuestRecordingForm extends React.Component{
                 <Row>
                     <Col xs={12} md={6} className={"my-2"}>
                         <div className={"card"}>
+                            <div className={"card-header bg-primary text-light"}>
+                                Search Guest by ID
+                            </div>
+                            <div className={"card-body"}>
+                                <Col xs={12} className={"form-group"}>
+                                    <label htmlFor={"getGuestId"} >Guest ID</label>
+                                    <input className={"form-control"} type={"number"} id={"getGuestId"} name={"getGuestId"} value={this.state.getGuestId} onChange={this.formOnChange}/>
+                                </Col>
+                                <Col xs={12}>
+                                    <button className={"btn btn-primary btn-block"} onClick={()=> actions.getGuestById(this.state.getGuestId)}>Submit</button>
+                                </Col>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col xs={12} md={6} className={"my-2"}>
+                        <div className={"card"}>
                             <div className={"card-header bg-danger text-light"}>
                                 Delete Guest by ID
                             </div>
