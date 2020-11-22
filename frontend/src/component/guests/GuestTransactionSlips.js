@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
+import SlideListItemForGuestTransaction from "../slides/SlideListItemForGuestTransaction";
 
-function Slips({slips}){
+function GuestTransactionSlips({slips}){
     return (
         <ul >
             {slips.map(({id, guestId, slide, timestamp}, index) => {
@@ -8,9 +9,8 @@ function Slips({slips}){
                     <Fragment key={index}>
                         <li key={id}>ID: {id}</li>
                         <li key={guestId}>Guest ID: {guestId}</li>
-                        <li key={guestId + "+" + guestId}>Slide:</li>
+                        <li key={guestId + "+" + guestId}>Slide: <SlideListItemForGuestTransaction slide={"slide"}/></li>
                         <li key={timestamp}>Timestamp: {timestamp}</li>
-                        <li key={slide}>Slide:</li>
                     </Fragment>
                 );
             })}
@@ -18,4 +18,4 @@ function Slips({slips}){
     );
 }
 
-export default Slips;
+export default GuestTransactionSlips;

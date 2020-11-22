@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col} from "react-bootstrap";
-import Slips from "./GuestTransactionSlips";
+import GuestTransactionSlips from "./GuestTransactionSlips";
+import SlideListItemForGuestTransaction from "../slides/SlideListItemForGuestTransaction";
 
 function GuestListItem({id, arrivalDateTime, transactions, watch }){
     return (
@@ -15,7 +16,7 @@ function GuestListItem({id, arrivalDateTime, transactions, watch }){
                             <ul>
                                 <li>ID: {transactions.id}</li>
                                 <li>Slips:
-                                    <Slips slips={transactions.slips}/>
+                                    <GuestTransactionSlips slips={transactions.slips}/>
                                 </li>
                             </ul>
                         </li>
