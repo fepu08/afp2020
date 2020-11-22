@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import ErrorMessageWell from "./component/ErrorMessageWell";
 import NavbarComponent from "./component/layout/NavbarComponent";
 import GuestRecordingForm from "./component/guests/GuestRecordingForm";
+import GuestList from "./component/guests/GuestList";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                                <Fragment>
                                 <p>This is the Guests page</p>
                                 <GuestRecordingForm/>
+                                <GuestList/>
                                </Fragment>
                            )
                        }/>

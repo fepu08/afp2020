@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {Row, Col} from "react-bootstrap";
-import * as actions from '../action/GuestActions';
-import ErrorMessageWell from "./ErrorMessageWell";
+import * as actions from '../../action/GuestActions';
+import ErrorMessageWell from "../ErrorMessageWell";
 class GuestRecordingForm extends React.Component{
     /*
         React konstruktorokat általában kétféle okból használjuk:
