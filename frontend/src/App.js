@@ -3,6 +3,8 @@ import './App.scss';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import ErrorMessageWell from "./component/ErrorMessageWell";
 import NavbarComponent from "./component/layout/NavbarComponent";
+import GuestRecordingForm from "./component/guests/GuestRecordingForm";
+import GuestList from "./component/guests/GuestList";
 
 function App() {
     return (
@@ -20,7 +22,11 @@ function App() {
 
                        <Route exact path={"/Guests"} render={
                            () => (
-                               <p>This is the Guests page</p>
+                               <Fragment>
+                                <p>This is the Guests page</p>
+                                <GuestRecordingForm/>
+                                <GuestList/>
+                               </Fragment>
                            )
                        }/>
 
