@@ -9,7 +9,9 @@ function GuestTransactionSlips({slips}){
                     <Fragment key={index}>
                         <li key={id}>ID: {id}</li>
                         <li key={guestId}>Guest ID: {guestId}</li>
-                        <li key={guestId + "+" + guestId}>Slide: <SlideListItemForGuestTransaction slide={"slide"}/></li>
+                        <li key={guestId + "+" + guestId}>Slide:
+                            <SlideListItemForGuestTransaction id={slide.id} price={slide.price} slideName={slide.slideName}/>
+                        </li>
                         <li key={timestamp}>Timestamp: {timestamp}</li>
                     </Fragment>
                 );
