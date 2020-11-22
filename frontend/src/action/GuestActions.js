@@ -54,4 +54,21 @@ export const deleteGuest = (deleteGuestId) => {
         });
 }
 
-//TODO: useSlide
+export const useSlide = ({slideId, watchId}) => {
+    axios.post('/Guest/useSlide',
+        {
+            slideId : slideId,
+            watchID: watchId
+        })
+        .then(() => {
+            fetchGuest();
+            dispatcher.dispatch({action : actionConstants.clearError});
+        })
+        .catch((err) => {
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
+            fetchGuest();
+        });
+}
