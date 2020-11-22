@@ -40,7 +40,25 @@ export const getSlideById = (slideId) => {
         });
 }
 
-//TODO: updateSlide
+export const updateSlide = ({id, price, slideName}) => {
+    axios.put('/Slide/' + id,
+        {
+            id: id,
+            price: price,
+            slideName: slideName
+        })
+        .then(() => {
+            fetchSlide();
+            dispatcher.dispatch({action : actionConstants.clearError});
+        })
+        .catch((err) => {
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
+            fetchSlide();
+        });
+}
 
 export const deleteSlideById = (slideId) => {
     axios.delete('/Slide/' + slideId)
