@@ -25,8 +25,8 @@ function App() {
                        <Route exact path={"/Guests"} render={
                            () => (
                                <Fragment>
-                                <GuestRecordingForm/>
-                                <GuestList/>
+                                    <GuestRecordingForm/>
+                                    <GuestList/>
                                </Fragment>
                            )
                        }/>
