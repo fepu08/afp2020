@@ -28,7 +28,6 @@ export const checkInGuest = () => {
 //TODO: getGuestById
 
 export const deleteGuest = (deleteGuestId) => {
-    //TODO: deleteGuestById
     axios.delete('/Guest/checkOutGuest/' + deleteGuestId)
         .then(() => {
             fetchGuest();

@@ -28,7 +28,7 @@ class GuestRecordingForm extends React.Component{
             <Fragment>
                 <ErrorMessageWell/> {/* Szükség van rá a hibaüzenetek megjelenítésére */}
                 <Row className={"w-100"}>
-                    {/ List all Guests */}
+                    {/* List all Guests */}
                     <Col xs={12} md={6} className={"my-2"}>
                         <button className="btn btn-primary btn-lg btn-block" onClick={()=> actions.fetchGuest()}>List all Guests</button>
                     </Col>
