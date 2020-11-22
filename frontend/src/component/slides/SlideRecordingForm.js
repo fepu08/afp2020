@@ -3,9 +3,9 @@ import * as actions from '../../action/SlideActions';
 import ErrorMessageWell from "../ErrorMessageWell";
 import CreateSlideForm from "./CreateSlideForm";
 import {Row, Col} from "react-bootstrap";
-import {fetchSlide} from "../../action/SlideActions";
+import UpdateSlidesForm from "./UpdateSlidesForm";
 
-class SldieRecordingForm extends React.Component{
+class SlideRecordingForm extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -62,11 +62,11 @@ class SldieRecordingForm extends React.Component{
 
                     <CreateSlideForm/>
 
-
+                    <UpdateSlidesForm/>
                 </Row>
             </Fragment>
         );
     }
 }
 
-export default SldieRecordingForm
+export default SlideRecordingForm
