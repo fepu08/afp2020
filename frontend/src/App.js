@@ -23,7 +23,6 @@ function App() {
                        <Route exact path={"/Guests"} render={
                            () => (
                                <Fragment>
-                                <p>This is the Guests page</p>
                                 <GuestRecordingForm/>
                                 <GuestList/>
                                </Fragment>
