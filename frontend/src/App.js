@@ -5,6 +5,8 @@ import ErrorMessageWell from "./component/ErrorMessageWell";
 import NavbarComponent from "./component/layout/NavbarComponent";
 import GuestRecordingForm from "./component/guests/GuestRecordingForm";
 import GuestList from "./component/guests/GuestList";
+import SlideRecordingForm from "./component/slides/SlideRecordingForm";
+import SlideList from "./component/slides/SlideList";
 
 function App() {
     return (
@@ -31,7 +33,10 @@ function App() {
 
                        <Route exact path={"/Slides"} render={
                            () => (
-                               <p>This is the Slides page</p>
+                               <Fragment>
+                                   <SlideRecordingForm/>
+                                   <SlideList/>
+                               </Fragment>
                            )
                        }/>
                    </Switch>
