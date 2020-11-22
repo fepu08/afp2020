@@ -45,8 +45,6 @@ class SldieRecordingForm extends React.Component{
                         </div>
                     </Col>
 
-                    <CreateSlideForm/>
-
                     <Col lg={"6"}>
                         <div className={"card"}>
                             <div className={"card-header bg-danger text-light"}>
@@ -61,6 +59,9 @@ class SldieRecordingForm extends React.Component{
                             </div>
                         </div>
                     </Col>
+
+                    <CreateSlideForm/>
+
 
                 </Row>
             </Fragment>
