@@ -25,7 +25,23 @@ export const checkInGuest = () => {
             fetchGuest();
         });
 }
-//TODO: getGuestById
+export const getGuestById = (guestId) => {
+    let guests = [];
+    axios.get('/Guest/' + guestId)
+        .then((resp) => {
+            dispatcher.dispatch({
+                action : actionConstants.refresh,
+                payload: guests.concat(resp.data)
+            });
+            dispatcher.dispatch({action : actionConstants.clearError});
+        })
+        .catch((err) => {
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
+        });
+}
 
 export const deleteGuest = (deleteGuestId) => {
     axios.delete('/Guest/checkOutGuest/' + deleteGuestId)
