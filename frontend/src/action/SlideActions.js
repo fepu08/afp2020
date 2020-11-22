@@ -22,7 +22,24 @@ export const addSlide = ({price, slideName}) => {
         });
 }
 
-//TODO: getSlideById
+export const getSlideById = (slideId) => {
+    let slides = [];
+    axios.get('/Slide/' + slideId)
+        .then((resp) => {
+            dispatcher.dispatch({
+                action : actionConstants.refresh,
+                payload: slides.concat(resp.data)
+            });
+            dispatcher.dispatch({action : actionConstants.clearError});
+        })
+        .catch((err) => {
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
+        });
+}
+
 //TODO: updateSlide
 //TODO: deleteSlide
 
