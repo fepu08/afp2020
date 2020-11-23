@@ -75,3 +75,24 @@ it('checks the guest use a non-existing slide', ()=>{
     expect(axios.post).toHaveBeenCalledTimes(1);
     expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
 });
+it('checks if get guest by id successfully', ()=>{
+    axios.get.mockReturnValue(Promise.resolve());
+    actions.getGuestById(1);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+});
+
+it('check to try to get a guest by a non-existing id', ()=>{
+    axios.get.mockReturnValue(Promise.reject({
+        response : {
+            status : 409,
+            statusText : "Conflict",
+            data : {
+                message : 'Conflict'
+            }
+        }
+    }));
+    dispatcher.dispatch();
+    actions.getGuestById(1);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
+});
