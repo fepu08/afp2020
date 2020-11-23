@@ -8,13 +8,14 @@ import GuestList from "./component/guests/GuestList";
 import SlideRecordingForm from "./component/slides/SlideRecordingForm";
 import SlideList from "./component/slides/SlideList";
 import {Row, Col} from "react-bootstrap";
+import FooterComponent from "./component/layout/FooterComponent";
 
 function App() {
     return (
         <div className={"App"}>
            <Router>
                <NavbarComponent/> {/* NEM lehet a Routeren kívülre helyezni*/}
-               <div className={"container"}>
+               <div className={"container"} style={{minHeight: "83vh"}}>
                    <ErrorMessageWell/>
                    <Switch>g
                        <Route exact path={"/"} render={
@@ -75,6 +76,7 @@ function App() {
                        }/>
                    </Switch>
                </div>
+               <FooterComponent/>
            </Router>
         </div>
     );
