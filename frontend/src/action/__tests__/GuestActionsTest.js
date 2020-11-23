@@ -96,3 +96,25 @@ it('check to try to get a guest by a non-existing id', ()=>{
     expect(axios.get).toHaveBeenCalledTimes(1);
     expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
 });
+it('checks get all guests', ()=>{
+    axios.get.mockReturnValue(Promise.resolve());
+    actions.fetchGuest();
+    expect(axios.get).toHaveBeenCalledTimes(1);
+
+});
+
+it('checks cant get all guests', ()=>{
+    axios.post.mockReturnValue(Promise.reject({
+        response : {
+            status : 409,
+            statusText : "Conflict",
+            data : {
+                message : 'Conflict'
+            }
+        }
+    }));
+    dispatcher.dispatch();
+    actions.fetchGuest();
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
+});
