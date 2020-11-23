@@ -54,3 +54,24 @@ it('checks the delete of non-existing guest', ()=>{
     expect(axios.delete).toHaveBeenCalledTimes(1);
     expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
 });
+it('checks if the guest use slide successfully', ()=>{
+    axios.post.mockReturnValue(Promise.resolve());
+    actions.useSlide(1, "9991460b-1786-4177-8ef3-7d61f0114710");
+    expect(axios.post).toHaveBeenCalledTimes(1);
+});
+
+it('checks the guest use a non-existing slide', ()=>{
+    axios.post.mockReturnValue(Promise.reject({
+        response : {
+            status : 409,
+            statusText : "Conflict",
+            data : {
+                message : 'Conflict'
+            }
+        }
+    }));
+    dispatcher.dispatch();
+    actions.useSlide(1, "9991460b-1786-4177-8ef3-7d61f0114710");
+    expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
+});
