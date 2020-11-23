@@ -11,6 +11,9 @@ class ErrorMessageWell extends React.Component{
 
     _errorMsgChange(){
         this.setState({errorMsg : store._errorMsg});
+        setTimeout(() => {
+            this.setState({errorMsg : ""})
+        }, 10000);
     }
 
 
@@ -26,7 +29,7 @@ class ErrorMessageWell extends React.Component{
         const msg = this.state.errorMsg;
         return (
             msg !== "" &&
-                    <div className={["alert", "alert-danger"].join(' ')}>
+                    <div className={["alert", "alert-danger", "my-3"].join(' ')}>
                         {msg}
                     </div>
         );
