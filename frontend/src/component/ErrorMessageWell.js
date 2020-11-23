@@ -29,7 +29,7 @@ class ErrorMessageWell extends React.Component{
         const msg = this.state.errorMsg;
         return (
             msg !== "" &&
-                    <div className={["alert", "alert-danger", "my-3"].join(' ')}>
+                    <div className={["alert", "alert-danger", "mt-3", "mb-0"].join(' ')}>
                         {msg}
                     </div>
         );

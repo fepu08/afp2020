@@ -1,6 +1,7 @@
 import axios from 'axios';
 import dispatcher from '../dispatcher/Dispatcher';
 import * as actionConstants from '../dispatcher/SlideActionConstants'
+import {fetchGuest} from "./GuestActions";
 
 export const addSlide = ({price, slideName}) => {
     axios.post('/Slide/record',
@@ -66,8 +67,11 @@ export const deleteSlideById = (slideId) => {
             fetchSlide();
         })
         .catch((err) => {
-            console.log(err);
-            fetchSlide();
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
+            fetchGuest();
         });
 }
 
