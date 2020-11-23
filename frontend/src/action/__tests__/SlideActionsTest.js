@@ -78,4 +78,27 @@ describe('Tests for GuestActions', ()=> {
         expect(axios.put).toHaveBeenCalledTimes(1);
         expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
     });
+
+    // DELETE SLIDE BY ID
+    it('checks if can delete slide by id', ()=>{
+        axios.delete.mockReturnValue(Promise.resolve());
+        actions.deleteSlideById(1);
+        expect(axios.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it('checks if cant slide id non-exists', ()=>{
+        axios.delete.mockReturnValue(Promise.reject({
+            response : {
+                status : 409,
+                statusText : "Conflict",
+                data : {
+                    message : 'Conflict'
+                }
+            }
+        }));
+        dispatcher.dispatch();
+        actions.deleteSlideById(1)
+        expect(axios.delete).toHaveBeenCalledTimes(1);
+        expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
+    });
 });
