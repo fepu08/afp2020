@@ -1,6 +1,7 @@
 import React from "react";
 import * as actions from '../../action/SlideActions';
 import {Col} from "react-bootstrap";
+import ErrorMessageWell from "../ErrorMessageWell";
 
 class UpdateSlidesForm extends React.Component{
     constructor(props) {
@@ -24,6 +25,11 @@ class UpdateSlidesForm extends React.Component{
                     <div className={"card-header bg-warning text-light"}>
                         Update Slide
                     </div>
+
+                    <Col>
+                        <ErrorMessageWell/>
+                    </Col>
+
                     <div className={"card-body"}>
                         <div className={"form-group"}>
                             <label htmlFor={"id"}>ID</label>

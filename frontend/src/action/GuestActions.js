@@ -3,12 +3,19 @@ import dispatcher from '../dispatcher/Dispatcher';
 import * as actionConstants from '../dispatcher/GuestActionConstants'
 
 export const fetchGuest = () =>{
-    axios.get('/Guest/').then((resp)=>{
-        dispatcher.dispatch({
-            action : actionConstants.refresh,
-            payload: resp.data
+    axios.get('/Guest/')
+        .then((resp)=>{
+            dispatcher.dispatch({
+                action: actionConstants.refresh,
+                payload: resp.data
+            });
+        })
+        .catch((err) => {
+            dispatcher.dispatch({
+                action: actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
         });
-    })
 }
 
 export const checkInGuest = () => {
@@ -46,10 +53,14 @@ export const getGuestById = (guestId) => {
 export const deleteGuest = (deleteGuestId) => {
     axios.delete('/Guest/checkOutGuest/' + deleteGuestId)
         .then(() => {
+            //TODO: meglehetne csinálni hogy a fenti error zolddel kijelezze, hogy sikeres a torles
             fetchGuest();
         })
         .catch((err) => {
-            console.log(err);
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
             fetchGuest();
         });
 }

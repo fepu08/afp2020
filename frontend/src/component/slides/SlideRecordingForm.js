@@ -24,7 +24,6 @@ class SlideRecordingForm extends React.Component{
     render() {
         return(
             <Fragment>
-                <ErrorMessageWell/>
                 <Row className="w-100 my-2">
                     <Col xs="12" className="my-2">
                         <button className="btn btn-primary btn-lg btn-block" onClick={()=> actions.fetchSlide()}>List all Slides</button>
