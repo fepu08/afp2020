@@ -23,7 +23,6 @@ class GuestRecordingForm extends React.Component{
     render(){
         return(
             <Fragment>
-                <ErrorMessageWell/>
                 <Row className={"w-100"}>
                     {/* List all Guests */}
                     <Col xs={"12"} md={"6"} className={"my-2"}>
