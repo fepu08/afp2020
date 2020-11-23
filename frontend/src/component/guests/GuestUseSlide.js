@@ -20,7 +20,11 @@ class GuestUseSlide extends React.Component{
     render() {
         return (
             <Row className={"form-group px-2"}>
-                <ErrorMessageWell/>
+                <Col xs={"12"}>
+                    {/* azért így kell, hogy ne jelenjen meg minden vendégnél a listában a hiba*/}
+                    {(this.state.slideId !== 0) && <ErrorMessageWell/>}
+                </Col>
+
                 <Col sm={4} lg={"2"}>
                     <label htmlFor={"slideId"} className={"col-form-label"}>Slide ID</label>
                 </Col>
