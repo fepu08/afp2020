@@ -53,10 +53,14 @@ export const getGuestById = (guestId) => {
 export const deleteGuest = (deleteGuestId) => {
     axios.delete('/Guest/checkOutGuest/' + deleteGuestId)
         .then(() => {
+            //TODO: meglehetne csinálni hogy a fenti error zolddel kijelezze, hogy sikeres a torles
             fetchGuest();
         })
         .catch((err) => {
-            console.log(err);
+            dispatcher.dispatch({
+                action : actionConstants.showError,
+                payload: `${err.response.status}-${err.response.statusText}: ${err.response.data.message}`
+            });
             fetchGuest();
         });
 }
