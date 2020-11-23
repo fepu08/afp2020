@@ -15,8 +15,8 @@ function GuestListItem({id, arrivalDateTime, transactions, watch }){
                             Transactions:
                             <ul>
                                 <li>ID: {transactions.id}</li>
-                                <li>Slips:
-                                    <GuestTransactionSlips slips={transactions.slips}/>
+                                <li>Slips: &nbsp;
+                                    {transactions.slips.length === 0 ? 0 : <GuestTransactionSlips slips={transactions.slips}/>}
                                 </li>
                             </ul>
                         </li>
