@@ -55,4 +55,27 @@ describe('Tests for GuestActions', ()=> {
         expect(axios.get).toHaveBeenCalledTimes(1);
         expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
     });
+
+    // UPDATE SLIDE
+    it('checks if can update slide', ()=>{
+        axios.put.mockReturnValue(Promise.resolve());
+        actions.updateSlide(1, 2200, "just small joel" );
+        expect(axios.put).toHaveBeenCalledTimes(1);
+    });
+
+    it('checks if cant slide id non-exists', ()=>{
+        axios.put.mockReturnValue(Promise.reject({
+            response : {
+                status : 409,
+                statusText : "Conflict",
+                data : {
+                    message : 'Conflict'
+                }
+            }
+        }));
+        dispatcher.dispatch();
+        actions.updateSlide(1, 2200, "just small joel")
+        expect(axios.put).toHaveBeenCalledTimes(1);
+        expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
+    });
 });
