@@ -33,3 +33,24 @@ describe('Tests for GuestActions', ()=>{
         expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
     });
 })
+it('checks if the guest delete successfully', ()=>{
+    axios.delete.mockReturnValue(Promise.resolve());
+    actions.deleteGuest(1);
+    expect(axios.delete).toHaveBeenCalledTimes(1);
+});
+
+it('checks the delete of non-existing guest', ()=>{
+    axios.delete.mockReturnValue(Promise.reject({
+        response : {
+            status : 409,
+            statusText : "Conflict",
+            data : {
+                message : 'Conflict'
+            }
+        }
+    }));
+    dispatcher.dispatch();
+    actions.deleteGuest();
+    expect(axios.delete).toHaveBeenCalledTimes(1);
+    expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
+});
